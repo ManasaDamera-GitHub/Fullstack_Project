@@ -3,7 +3,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "../../styles/AllServices.css";
 import Header from "@/components/Navbar";
-import { useCart } from "../../pages/context/CartContext";
+import { useCart } from "../context/CartContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
