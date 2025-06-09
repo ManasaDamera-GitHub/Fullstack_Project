@@ -6,12 +6,14 @@ import Header from "@/components/Navbar";
 import { useCart } from "../context/CartContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const ACAppliances = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [services, setServices] = useState([]);
   const { addToCart, removeFromCart, cartItems } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchALL = async () => {
@@ -36,10 +38,8 @@ const ACAppliances = () => {
     const isInCart = cartItems.some((item) => item.title === service.title);
     if (isInCart) {
       removeFromCart(service.title);
-      // toast.info("Removed from cart");
     } else {
       addToCart(service);
-      // toast.success("Added to cart");
     }
     setSelectedService(null);
   };
@@ -166,9 +166,16 @@ const ACAppliances = () => {
                         : "Add to Cart"}
                     </button>
                     <button
-                      className="book-btn"
-                      onClick={() => navigate(`/book/${serviceId}`)}
+                      className="btn btn-success mt-2 w-100 modal-button-text"
+                      onClick={() =>
+                        navigate(
+                          `/professionals/${encodeURIComponent(
+                            selectedService.title
+                          )}`
+                        )
+                      }
                     >
+                      <i className="bi bi-calendar-check-fill me-2" />
                       Book Now
                     </button>
                   </div>

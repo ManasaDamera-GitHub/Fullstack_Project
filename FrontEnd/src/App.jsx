@@ -36,6 +36,8 @@ import Door_Installation from "./pages/Home Repair/Door";
 import Fan_Installation from "./pages/Home Repair/Fan";
 import Bed_Installation from "./pages/Home Repair/Bed";
 import Apartment_Terminate_control from "./pages/Home Repair/ApartmentTerminate";
+import BookingSection from "./pages/Booking/booking";
+import ProfessionalsPage from "./pages/Professional/Professional";
 
 export const App = () => {
   return (
@@ -91,6 +93,14 @@ export const App = () => {
           <Route
             path="/terminate-control"
             element={<Apartment_Terminate_control />}
+          />
+          <Route
+            path="/professionals/:serviceTitle"
+            element={<ProfessionalsPage />}
+          />
+          <Route
+            path="/booking/:serviceTitle/:professionalId"
+            element={<BookingSection />}
           />
         </Routes>
       </Router>
