@@ -6,13 +6,14 @@ import Header from "@/components/Navbar";
 import { useCart } from "../context/CartContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const AllServices = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [services, setServices] = useState([]);
   const { addToCart, removeFromCart, cartItems } = useCart();
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchALL = async () => {
       try {
@@ -166,6 +167,19 @@ const AllServices = () => {
                       {isInCart(selectedService.title)
                         ? "Remove from Cart"
                         : "Add to Cart"}
+                    </button>
+                    <button
+                      className="btn btn-success mt-2 w-100 modal-button-text"
+                      onClick={() =>
+                        navigate(
+                          `/professionals/${encodeURIComponent(
+                            selectedService.title
+                          )}`
+                        )
+                      }
+                    >
+                      <i className="bi bi-calendar-check-fill me-2" />
+                      Book Now
                     </button>
                   </div>
                 </div>
