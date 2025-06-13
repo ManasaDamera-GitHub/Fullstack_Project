@@ -16,7 +16,9 @@ const AllSpaServices = () => {
   useEffect(() => {
     const fetchALLSpa = async () => {
       try {
-        const response = await fetch("http://localhost:3000/womenSpa/womenSpa");
+        const response = await fetch(
+          "https://hearth-hand.onrender.com/womenSpa/womenSpa"
+        );
         const data = await response.json();
         setServices(data);
       } catch (error) {

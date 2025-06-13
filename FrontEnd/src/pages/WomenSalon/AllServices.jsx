@@ -17,7 +17,7 @@ const AllServices = () => {
   useEffect(() => {
     const fetchALL = async () => {
       try {
-        const response = await fetch("http://localhost:3000/women/women");
+        const response = await fetch("https://hearth-hand.onrender.com/women/women");
         const data = await response.json();
         setServices(data);
       } catch (error) {

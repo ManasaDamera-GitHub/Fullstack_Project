@@ -6,7 +6,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
-import "../../styles/LoginReg/Login.css"; 
+import "../../styles/LoginReg/Login.css";
 
 export const Signup = () => {
   const [formData, setFormData] = useState({
@@ -27,7 +27,7 @@ export const Signup = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:3000/Signup",
+        "https://hearth-hand.onrender.com/Signup",
         formData,
         {
           headers: {

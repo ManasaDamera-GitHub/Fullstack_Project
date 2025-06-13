@@ -17,7 +17,7 @@ const Manicure = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await fetch("http://localhost:3000/women/women");
+        const response = await fetch("https://hearth-hand.onrender.com/women/women");
         const data = await response.json();
         const manicureServices = data.filter(
           (service) => service.category === "Manicure Pedicure Services"
