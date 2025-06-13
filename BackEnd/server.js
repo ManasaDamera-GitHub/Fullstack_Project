@@ -42,8 +42,8 @@ mongoose
     console.log("MongoDB connected");
   })
   .then(() => {
-    app.listen(process.env.port, () => {
-      console.log(`server is running on http://localhost:${process.env.port}`);
+    app.listen(process.env.Port, () => {
+      console.log(`server is running on http://localhost:${process.env.Port}`);
     });
   })
   .catch((error) => {
