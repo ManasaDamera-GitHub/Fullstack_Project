@@ -17,7 +17,7 @@ const PullOut_installation = () => {
   useEffect(() => {
     const fetchALL = async () => {
       try {
-        const response = await fetch("http://localhost:3000/repair/repair");
+        const response = await fetch("https://hearth-hand.onrender.com/repair/repair");
         if (!response.ok) throw new Error("Failed to fetch services");
         const data = await response.json();
         setServices(data);

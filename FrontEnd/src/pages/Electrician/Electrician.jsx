@@ -16,7 +16,7 @@ const ElectricianServices = () => {
   useEffect(() => {
     const fetchALL = async () => {
       try {
-        const response = await fetch("http://localhost:3000/electrician/electrician");
+        const response = await fetch("https://hearth-hand.onrender.com/electrician/electrician");
         if (!response.ok) {
           throw new Error("Failed to fetch services");
         }
