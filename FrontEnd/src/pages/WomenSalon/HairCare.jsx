@@ -4,6 +4,9 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Header from "@/components/Navbar";
 import { useCart } from "../context/CartContext";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Lottie from "lottie-react";
+import womenServiceLoader from "../../assets/women-loader.json";
 
 const HairCare = () => {
   const [selectedService, setSelectedService] = useState(null);
@@ -11,13 +14,16 @@ const HairCare = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const { cartItems, addToCart, removeFromCart } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchALL = async () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await fetch("https://hearth-hand.onrender.com/women/women");
+        const response = await fetch(
+          "https://hearth-hand.onrender.com/women/women"
+        );
         const data = await response.json();
         const hairServices = data.filter(
           (service) => service.category === "Hair Services"
@@ -35,14 +41,15 @@ const HairCare = () => {
 
   const closeModal = () => setSelectedService(null);
 
+  const isInCart = (title) => cartItems.some((item) => item.title === title);
+
   const handleCartToggle = (service) => {
-    const isInCart = cartItems.some((item) => item.title === service.title);
-    if (isInCart) {
+    if (isInCart(service.title)) {
       removeFromCart(service.title);
-      // toast.info("Removed from cart");
+      toast.info("Removed from cart");
     } else {
       addToCart(service);
-      // toast.success("Added to cart");
+      toast.success("Added to cart");
     }
     closeModal();
   };
@@ -52,11 +59,14 @@ const HairCare = () => {
       <Header />
       <div className="container py-5">
         {loading && (
-          <div className="text-center py-5">
-            <div className="spinner-border text-warning" role="status"></div>
-            <p className="mt-3">Loading services...</p>
+          <div className="text-center py-5 d-flex flex-column align-items-center justify-content-center">
+            <div style={{ width: 200 }}>
+              <Lottie animationData={womenServiceLoader} loop autoplay />
+            </div>
+            <p className="mt-3">Loading hair care services...</p>
           </div>
         )}
+
         {!loading && error && (
           <div className="text-center text-danger py-5">
             <p>{error}</p>
@@ -67,6 +77,7 @@ const HairCare = () => {
             <p>No Hair Care services found.</p>
           </div>
         )}
+
         <div className="row">
           {services.map((service) => (
             <div
@@ -93,7 +104,7 @@ const HairCare = () => {
           ))}
         </div>
 
-        {/* ✅ Responsive Modal */}
+        {/* ✅ Modal with full features */}
         {selectedService && (
           <div
             className="modal d-block"
@@ -143,17 +154,38 @@ const HairCare = () => {
                         🔖 Starting at{" "}
                         <strong>₹{selectedService.starts_at_price}</strong>
                       </div>
-                      <div className="modal-footer justify-content-between"></div>
-                      <button
-                        className="btn btn-primary"
-                        onClick={() => handleCartToggle(selectedService)}
-                      >
-                        {cartItems.some(
-                          (item) => item.title === selectedService.title
-                        )
-                          ? "Remove from Cart"
-                          : "Add to Cart"}
-                      </button>
+
+                      {/* Modal Footer Buttons */}
+                      <div className="modal-footer d-flex flex-column flex-md-row justify-content-between gap-2">
+                        <button
+                          className="btn btn-primary w-100"
+                          onClick={() => handleCartToggle(selectedService)}
+                        >
+                          <i
+                            className={`bi me-2 ${
+                              isInCart(selectedService.title)
+                                ? "bi-cart-dash"
+                                : "bi-cart-plus"
+                            }`}
+                          ></i>
+                          {isInCart(selectedService.title)
+                            ? "Remove from Cart"
+                            : "Add to Cart"}
+                        </button>
+                        <button
+                          className="btn btn-success w-100"
+                          onClick={() =>
+                            navigate(
+                              `/professionals/${encodeURIComponent(
+                                selectedService.title
+                              )}`
+                            )
+                          }
+                        >
+                          <i className="bi bi-calendar-check-fill me-2" />
+                          Book Now
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

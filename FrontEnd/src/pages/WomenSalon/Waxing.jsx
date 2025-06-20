@@ -4,13 +4,17 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Header from "@/components/Navbar";
 import { useCart } from "../context/CartContext";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Lottie from "lottie-react";
+import womenServiceLoader from "../../assets/women-loader.json";
 
 const Waxing = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const { addToCart, removeFromCart, cartItems } = useCart(); // ✅ fixed missing removeFromCart
+  const { addToCart, removeFromCart, cartItems } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -43,10 +47,10 @@ const Waxing = () => {
     const isInCart = cartItems.some((item) => item.title === service.title);
     if (isInCart) {
       removeFromCart(service.title);
-      // toast.info("Removed from cart", { toastId: "cart-toast" });
+      toast.success("Removed from cart");
     } else {
       addToCart(service);
-      // toast.success("Added to cart", { toastId: "cart-toast" });
+      toast.success("Added to cart");
     }
     closeModal();
   };
@@ -56,16 +60,20 @@ const Waxing = () => {
       <Header />
       <div className="container py-5">
         {loading && (
-          <div className="text-center py-5">
-            <div className="spinner-border text-warning" role="status"></div>
-            <p className="mt-3">Loading services...</p>
+          <div className="text-center py-5 d-flex flex-column align-items-center justify-content-center">
+            <div style={{ width: 200 }}>
+              <Lottie animationData={womenServiceLoader} loop autoplay />
+            </div>
+            <p className="mt-3">Loading Waxing services...</p>
           </div>
         )}
+
         {!loading && error && (
           <div className="text-center text-danger py-5">
             <p>{error}</p>
           </div>
         )}
+
         {!loading && !error && services.length === 0 && (
           <div className="text-center text-muted py-5">
             <p>No services found.</p>
@@ -149,16 +157,38 @@ const Waxing = () => {
                         <strong>₹{selectedService.starts_at_price}</strong>
                       </div>
 
-                      <div className="modal-footer justify-content-between">
+                      <div className="modal-footer d-flex flex-column flex-md-row justify-content-between gap-2">
                         <button
-                          className="btn btn-primary"
+                          className="btn btn-primary w-100"
                           onClick={() => handleCartToggle(selectedService)}
                         >
+                          <i
+                            className={`bi me-2 ${
+                              cartItems.some(
+                                (item) => item.title === selectedService.title
+                              )
+                                ? "bi-cart-dash"
+                                : "bi-cart-plus"
+                            }`}
+                          ></i>
                           {cartItems.some(
                             (item) => item.title === selectedService.title
                           )
                             ? "Remove from Cart"
                             : "Add to Cart"}
+                        </button>
+                        <button
+                          className="btn btn-success w-100"
+                          onClick={() =>
+                            navigate(
+                              `/professionals/${encodeURIComponent(
+                                selectedService.title
+                              )}`
+                            )
+                          }
+                        >
+                          <i className="bi bi-calendar-check-fill me-2" />
+                          Book Now
                         </button>
                       </div>
                     </div>

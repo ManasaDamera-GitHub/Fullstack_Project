@@ -4,30 +4,36 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import Header from "@/components/Navbar";
 import { useCart } from "../context/CartContext";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Lottie from "lottie-react";
+import womenServiceLoader from "../../assets/women-loader.json";
 
 const CleanUp = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const { addToCart, removeFromCart, cartItems } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchALL = async () => {
       try {
-        setLoading(true);
+        setIsLoading(true);
         setError(null);
-        const response = await fetch("https://hearth-hand.onrender.com/women/women");
+        const response = await fetch(
+          "https://hearth-hand.onrender.com/women/women"
+        );
         const data = await response.json();
-        const facialServices = data.filter(
+        const filtered = data.filter(
           (service) => service.category === "Cleanup Services"
         );
-        setServices(facialServices);
+        setServices(filtered);
       } catch (error) {
         console.error("Data fetch failed", error);
         setError("Failed to fetch services");
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
     fetchALL();
@@ -35,14 +41,15 @@ const CleanUp = () => {
 
   const closeModal = () => setSelectedService(null);
 
+  const isInCart = (title) => cartItems.some((item) => item.title === title);
+
   const handleCartToggle = (service) => {
-    const isInCart = cartItems.some((item) => item.title === service.title);
-    if (isInCart) {
+    if (isInCart(service.title)) {
       removeFromCart(service.title);
-      // toast.info("Removed from cart", { toastId: "cart-toast" });
+      toast.info("Removed from cart");
     } else {
       addToCart(service);
-      // toast.success("Added to cart", { toastId: "cart-toast" });
+      toast.success("Added to cart");
     }
     closeModal();
   };
@@ -51,49 +58,54 @@ const CleanUp = () => {
     <>
       <Header />
       <div className="container py-5">
-        {loading && (
-          <div className="text-center py-5">
-            <div className="spinner-border text-warning" role="status"></div>
-            <p className="mt-3">Loading services...</p>
+        {/* Loader */}
+        {isLoading ? (
+          <div
+            className="d-flex flex-column justify-content-center align-items-center"
+            style={{ height: "60vh" }}
+          >
+            <Lottie animationData={womenServiceLoader} loop={true} style={{ height: 200 }} />
+            <p className="text-primary fw-semibold mt-3">
+              Loading services, please wait...
+            </p>
           </div>
-        )}
-        {!loading && error && (
+        ) : error ? (
           <div className="text-center text-danger py-5">
             <p>{error}</p>
           </div>
-        )}
-        {!loading && !error && services.length === 0 && (
+        ) : services.length === 0 ? (
           <div className="text-center text-muted py-5">
             <p>No Cleanup Services found.</p>
           </div>
-        )}
-
-        <div className="row">
-          {services.map((service) => (
-            <div
-              key={service.id}
-              className="col-12 col-md-6 col-lg-4 mb-4"
-              onClick={() => setSelectedService(service)}
-              style={{ cursor: "pointer" }}
-            >
-              <div className="card h-100 text-center shadow-sm">
-                <img
-                  src={service.image}
-                  className="card-img-top"
-                  alt={service.title}
-                  style={{ height: "280px", objectFit: "cover" }}
-                />
-                <div className="card-body d-flex flex-column">
-                  <h5 className="card-title">{service.title}</h5>
-                  <div className="mt-2 px-3 py-2 rounded bg-warning bg-opacity-25 d-inline-block">
-                    🔖 Starting at <strong>₹{service.starts_at_price}</strong>
+        ) : (
+          <div className="row">
+            {services.map((service) => (
+              <div
+                key={service.id}
+                className="col-12 col-md-6 col-lg-4 mb-4"
+                onClick={() => setSelectedService(service)}
+                style={{ cursor: "pointer" }}
+              >
+                <div className="card h-100 text-center shadow-sm">
+                  <img
+                    src={service.image}
+                    className="card-img-top"
+                    alt={service.title}
+                    style={{ height: "280px", objectFit: "cover" }}
+                  />
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title">{service.title}</h5>
+                    <div className="mt-2 px-3 py-2 rounded bg-warning bg-opacity-25 d-inline-block">
+                      🔖 Starting at <strong>₹{service.starts_at_price}</strong>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
+        {/* Modal */}
         {selectedService && (
           <div
             className="modal d-block"
@@ -118,10 +130,8 @@ const CleanUp = () => {
                   <button className="btn-close" onClick={closeModal}></button>
                 </div>
 
-                {/* Two-column layout inside modal-body */}
                 <div className="modal-body">
                   <div className="row">
-                    {/* Left - Image */}
                     <div className="col-md-5 text-center">
                       <img
                         src={selectedService.image}
@@ -131,7 +141,6 @@ const CleanUp = () => {
                       />
                     </div>
 
-                    {/* Right - Text Info */}
                     <div className="col-md-7">
                       <p className="mb-2">
                         {selectedService.description || "No description."}
@@ -150,20 +159,45 @@ const CleanUp = () => {
                           </span>
                         </p>
                       )}
+
                       <div className="my-3 px-3 py-2 rounded bg-warning bg-opacity-25 d-inline-block">
                         🔖 Starting at{" "}
                         <strong>₹{selectedService.starts_at_price}</strong>
                       </div>
-                      <div className="modal-footer justify-content-between">
+
+                      <div className="modal-footer px-0 mt-3 d-flex flex-column gap-2">
                         <button
-                          className="btn btn-primary"
+                          className={`btn ${
+                            isInCart(selectedService.title)
+                              ? "btn-danger"
+                              : "btn-warning"
+                          } w-100`}
                           onClick={() => handleCartToggle(selectedService)}
                         >
-                          {cartItems.some(
-                            (item) => item.title === selectedService.title
-                          )
+                          <i
+                            className={`bi me-2 ${
+                              isInCart(selectedService.title)
+                                ? "bi-cart-dash"
+                                : "bi-cart-plus"
+                            }`}
+                          />
+                          {isInCart(selectedService.title)
                             ? "Remove from Cart"
                             : "Add to Cart"}
+                        </button>
+
+                        <button
+                          className="btn btn-success w-100"
+                          onClick={() =>
+                            navigate(
+                              `/professionals/${encodeURIComponent(
+                                selectedService.title
+                              )}`
+                            )
+                          }
+                        >
+                          <i className="bi bi-calendar-check-fill me-2" />
+                          Book Now
                         </button>
                       </div>
                     </div>

@@ -6,11 +6,14 @@ import { useCart } from "../../context/CartContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../../../styles/AllServices.css";
+import Lottie from "lottie-react";
+import womenServiceLoader from "../../../assets/women-loader.json";
 
 const AllSpaServices = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [services, setServices] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { addToCart, removeFromCart, cartItems } = useCart();
 
   useEffect(() => {
@@ -23,6 +26,8 @@ const AllSpaServices = () => {
         setServices(data);
       } catch (error) {
         console.log(error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchALLSpa();
@@ -72,46 +77,65 @@ const AllSpaServices = () => {
         </div>
 
         {/* Service Cards */}
-        <div className="row">
-          {filteredServices.map((service) => (
-            <div
-              key={service.id}
-              className="col-12 col-md-6 col-lg-4 mb-4"
-              onClick={() => setSelectedService(service)}
-              style={{ cursor: "pointer" }}
-            >
-              <div className="card h-100 text-center shadow-sm">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="card-img-top"
-                  style={{ height: "280px", width: "100%", objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{service.title}</h5>
-                  <p className="text-muted">
-                    {service.description.slice(0, 60)}...
-                  </p>
-                  <p>
-                    <strong>₹{service.starts_at_price}</strong>
-                  </p>
-                  <span className="text-dark fw-semibold">
-                    {service.view_details}
-                  </span>
+        {isLoading ? (
+          <div
+            className="d-flex flex-column justify-content-center align-items-center"
+            style={{ height: "60vh" }}
+          >
+            <Lottie
+              animationData={womenServiceLoader}
+              loop={true}
+              style={{ height: 200 }}
+            />
+            <p className="text-primary fw-semibold mt-3">
+              Loading services, please wait...
+            </p>
+          </div>
+        ) : (
+          <div className="row">
+            {filteredServices.map((service) => (
+              <div
+                key={service.id}
+                className="col-12 col-md-6 col-lg-4 mb-4"
+                onClick={() => setSelectedService(service)}
+                style={{ cursor: "pointer" }}
+              >
+                <div className="card h-100 text-center shadow-sm">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="card-img-top"
+                    style={{
+                      height: "280px",
+                      width: "100%",
+                      objectFit: "cover",
+                    }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{service.title}</h5>
+                    <p className="text-muted">
+                      {service.description.slice(0, 60)}...
+                    </p>
+                    <p>
+                      <strong>₹{service.starts_at_price}</strong>
+                    </p>
+                    <span className="text-dark fw-semibold">
+                      {service.view_details}
+                    </span>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
 
-          {filteredServices.length === 0 && (
-            <div className="col-12">
-              <p className="text-muted text-center">
-                No services found in this category.
-              </p>
-            </div>
-          )}
-        </div>
-
+            {filteredServices.length === 0 && (
+              <div className="col-12">
+                <p className="text-muted text-center">
+                  No services found in this category.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
         {/* Modal */}
         {selectedService && (
           <div

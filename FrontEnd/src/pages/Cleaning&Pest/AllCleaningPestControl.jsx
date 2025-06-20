@@ -7,13 +7,17 @@ import { useCart } from "../context/CartContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
+import Lottie from "lottie-react";
+import serviceLoader from "../../assets/service-loader.json"; 
 
 const AllCleaningPestControl = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [services, setServices] = useState([]);
   const { addToCart, removeFromCart, cartItems } = useCart();
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+  
   useEffect(() => {
     const fetchALL = async () => {
       try {
@@ -29,6 +33,8 @@ const AllCleaningPestControl = () => {
       } catch (error) {
         console.error("Fetch error:", error);
         toast.error("Failed to load services. Please try again later.");
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchALL();
@@ -73,45 +79,57 @@ const AllCleaningPestControl = () => {
           ))}
         </div>
 
-        <div className="row">
-          {filteredServices.map((service) => (
-            <div
-              key={service.id || service.title} // Use title as fallback if id is missing
-              className="col-12 col-md-6 col-lg-4 mb-4"
-              onClick={() => setSelectedService(service)}
-              style={{ cursor: "pointer" }}
-            >
-              <div className="card h-100 text-center shadow-sm">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="card-img-top"
-                  style={{ height: "280px", objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{service.title}</h5>
-                  <p className="text-muted">
-                    {service.description.slice(0, 60)}...
-                  </p>
-                  <p>
-                    <strong>₹{service.starts_at_price}</strong>
-                  </p>
-                  {/* <span className="text-dark fw-semibold">
-                    {service.view_details || "View Details"}
-                  </span> */}
+        {isLoading ? (
+          <div
+            className="d-flex flex-column justify-content-center align-items-center"
+            style={{ height: "60vh" }}
+          >
+            <Lottie
+              animationData={serviceLoader}
+              loop={true}
+              style={{ height: 200 }}
+            />
+            <p className="text-primary fw-semibold mt-3">
+              Loading services, please wait...
+            </p>
+          </div>
+        ) : (
+          <div className="row">
+            {filteredServices.map((service) => (
+              <div
+                key={service.id || service.title}
+                className="col-12 col-md-6 col-lg-4 mb-4"
+                onClick={() => setSelectedService(service)}
+                style={{ cursor: "pointer" }}
+              >
+                <div className="card h-100 text-center shadow-sm">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="card-img-top"
+                    style={{ height: "280px", objectFit: "cover" }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{service.title}</h5>
+                    <p className="text-muted">
+                      {service.description.slice(0, 60)}...
+                    </p>
+                    <p>
+                      <strong>₹{service.starts_at_price}</strong>
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-
-          {filteredServices.length === 0 && (
-            <div className="col-12">
-              <p className="text-muted text-center">
-                No services found in this category.
-              </p>
-            </div>
-          )}
-        </div>
+            ))}
+            {filteredServices.length === 0 && (
+              <div className="col-12">
+                <p className="text-muted text-center">
+                  No services found in this category.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
 
         {selectedService && (
           <div
