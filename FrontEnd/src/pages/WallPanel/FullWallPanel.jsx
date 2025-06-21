@@ -6,6 +6,7 @@ import Header from "@/components/Navbar";
 import { useCart } from "../context/CartContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import serviceLoader from "../../assets/service-loader.json";
 
@@ -15,10 +16,11 @@ const AllWallPanel = () => {
   const [services, setServices] = useState([]);
   const { addToCart, removeFromCart, cartItems } = useCart();
   const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchALL = async () => {
       try {
-        const response = await fetch("http://localhost:3000/wall");
+        const response = await fetch("https://hearth-hand.onrender.com/wall");
         if (!response.ok) {
           throw new Error("Failed to fetch services");
         }
@@ -187,6 +189,19 @@ const AllWallPanel = () => {
                       {isInCart(selectedService.title)
                         ? "Remove from Cart"
                         : "Add to Cart"}
+                    </button>
+                    <button
+                      className="btn btn-success mt-2 w-100 modal-button-text"
+                      onClick={() =>
+                        navigate(
+                          `/professionals/${encodeURIComponent(
+                            selectedService.title
+                          )}`
+                        )
+                      }
+                    >
+                      <i className="bi bi-calendar-check-fill me-2" />
+                      Book Now
                     </button>
                   </div>
 

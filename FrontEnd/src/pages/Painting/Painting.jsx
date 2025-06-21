@@ -78,7 +78,11 @@ const PaintingServices = () => {
             className="d-flex flex-column justify-content-center align-items-center"
             style={{ height: "60vh" }}
           >
-            <Lottie animationData={serviceLoader} loop={true} style={{ height: 200 }} />
+            <Lottie
+              animationData={serviceLoader}
+              loop={true}
+              style={{ height: 200 }}
+            />
             <p className="text-primary fw-semibold mt-3">
               Loading services, please wait...
             </p>
@@ -179,6 +183,19 @@ const PaintingServices = () => {
                         ? "Remove from Cart"
                         : "Add to Cart"}
                     </button>
+                    <button
+                      className="btn btn-success mt-2 w-100 modal-button-text"
+                      onClick={() =>
+                        navigate(
+                          `/professionals/${encodeURIComponent(
+                            selectedService.title
+                          )}`
+                        )
+                      }
+                    >
+                      <i className="bi bi-calendar-check-fill me-2" />
+                      Book Now
+                    </button>
                   </div>
 
                   <div className="col-md-7 ps-md-4">
@@ -188,7 +205,8 @@ const PaintingServices = () => {
                     <p className="modal-rating-text">
                       <b>
                         <i className="bi bi-star-fill text-warning"></i>{" "}
-                        {selectedService.rating} ({selectedService.views_count} reviews)
+                        {selectedService.rating} ({selectedService.views_count}{" "}
+                        reviews)
                       </b>
                     </p>
                     <p className="modal-details-text fw-semibold">
