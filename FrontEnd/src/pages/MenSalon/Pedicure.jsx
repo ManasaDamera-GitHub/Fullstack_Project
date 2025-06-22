@@ -5,31 +5,36 @@ import Header from "@/components/Navbar";
 import { useCart } from "../context/CartContext";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import Lottie from "lottie-react";
+import menServiceLoader from "../../assets/men-loader.json";
 
 const Pedicure = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [services, setServices] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
   const { cartItems, addToCart, removeFromCart } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchAll = async () => {
       try {
-        setLoading(true);
+        setIsLoading(true);
         setError(null);
-        const response = await fetch("http://localhost:3000/men/men");
+        const response = await fetch(
+          "https://hearth-hand.onrender.com/men/men"
+        );
         const data = await response.json();
-        const PedicureServices = data.filter(
+        const pedicureServices = data.filter(
           (service) => service.category === "Pedicure"
         );
-        setServices(PedicureServices);
-      } catch (error) {
-        console.error("Failed to fetch data:", error);
+        setServices(pedicureServices);
+      } catch (err) {
+        console.error("Failed to fetch data:", err);
         setError("Failed to load services.");
       } finally {
-        setLoading(false);
+        setIsLoading(false);
       }
     };
     fetchAll();
@@ -39,66 +44,71 @@ const Pedicure = () => {
 
   const isInCart = (title) => cartItems.some((item) => item.title === title);
 
-  const handleCartAction = (service) => {
+  const handleCartToggle = (service) => {
     if (isInCart(service.title)) {
       removeFromCart(service.title);
-      // toast.info("Removed from cart");
+      toast.info("Removed from cart");
     } else {
       addToCart(service);
-      // toast.success("Added to cart");
+      toast.success("Added to cart");
     }
-    setSelectedService(null);
+    closeModal();
   };
 
   return (
     <>
       <Header />
-      <div className="container py-4">
-        {loading && (
-          <div className="text-center py-5">
-            <div className="spinner-border text-warning" role="status"></div>
-            <p className="mt-3">Loading services...</p>
+      <div className="container py-5">
+        {/* Loader */}
+        {isLoading ? (
+          <div
+            className="d-flex flex-column justify-content-center align-items-center"
+            style={{ height: "60vh" }}
+          >
+            <Lottie
+              animationData={menServiceLoader}
+              loop={true}
+              style={{ height: 200 }}
+            />
+            <p className="text-primary fw-semibold mt-3">
+              Loading pedicure services...
+            </p>
           </div>
-        )}
-        {!loading && error && (
+        ) : error ? (
           <div className="text-center text-danger py-5">
             <p>{error}</p>
           </div>
-        )}
-        {!loading && !error && services.length === 0 && (
+        ) : services.length === 0 ? (
           <div className="text-center text-muted py-5">
-            <p>No Pedicure Services found.</p>
+            <p>No Pedicure services found.</p>
           </div>
-        )}
-
-        <div className="row">
-          {services.map((service) => (
-            <div
-              key={service.id}
-              className="col-12 col-sm-6 col-lg-4 mb-4"
-              onClick={() => setSelectedService(service)}
-              style={{ cursor: "pointer" }}
-            >
-              <div className="card h-100 text-center shadow-sm">
-                <img
-                  src={service.image}
-                  className="card-img-top"
-                  alt={service.title}
-                  style={{
-                    height: "250px",
-                    objectFit: "cover",
-                  }}
-                />
-                <div className="card-body d-flex flex-column justify-content-between">
-                  <h5 className="card-title">{service.title}</h5>
-                  <div className="mt-2 px-3 py-2 rounded bg-warning bg-opacity-25 d-inline-block">
-                    🔖 Starting at <strong>₹{service.starts_at_price}</strong>
+        ) : (
+          <div className="row">
+            {services.map((service) => (
+              <div
+                key={service.id}
+                className="col-12 col-md-6 col-lg-4 mb-4"
+                onClick={() => setSelectedService(service)}
+                style={{ cursor: "pointer" }}
+              >
+                <div className="card h-100 text-center shadow-sm">
+                  <img
+                    src={service.image}
+                    className="card-img-top"
+                    alt={service.title}
+                    style={{ height: "280px", objectFit: "cover" }}
+                  />
+                  <div className="card-body d-flex flex-column">
+                    <h5 className="card-title">{service.title}</h5>
+                    <div className="mt-2 px-3 py-2 rounded bg-warning bg-opacity-25 d-inline-block">
+                      🔖 Starting at <strong>₹{service.starts_at_price}</strong>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
 
         {/* Modal */}
         {selectedService && (
@@ -115,64 +125,90 @@ const Pedicure = () => {
               overflow: "auto",
             }}
           >
-            <div className="modal-dialog modal-dialog-centered modal-lg">
+            <div
+              className="modal-dialog modal-dialog-centered modal-lg"
+              style={{ maxWidth: "700px", margin: "5% auto" }}
+            >
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title">{selectedService.title}</h5>
                   <button className="btn-close" onClick={closeModal}></button>
                 </div>
 
-                {/* Modal Body */}
-                <div className="modal-body row g-4">
-                  <div className="col-12 col-md-5">
-                    <img
-                      src={selectedService.image}
-                      alt={selectedService.title}
-                      className="img-fluid rounded w-100"
-                      style={{ objectFit: "cover", maxHeight: "280px" }}
-                    />
-                  </div>
-                  <div className="col-12 col-md-7">
-                    <p>{selectedService.description}</p>
-                    <p>
-                      <i className="bi bi-star-fill text-warning"></i>{" "}
-                      {selectedService.rating} ({selectedService.views_count}{" "}
-                      reviews)
-                    </p>
-                    {selectedService.view_details && (
-                      <p className="text-muted">
-                        <i className="bi bi-info-circle me-1"></i>
-                        {selectedService.view_details}
-                      </p>
-                    )}
-                    <div className="mt-2 px-3 py-2 rounded bg-warning bg-opacity-25 d-inline-block">
-                      🔖 Starting at{" "}
-                      <strong>₹{selectedService.starts_at_price}</strong>
+                <div className="modal-body">
+                  <div className="row">
+                    <div className="col-md-5 text-center">
+                      <img
+                        src={selectedService.image}
+                        alt={selectedService.title}
+                        className="img-fluid rounded"
+                        style={{ maxHeight: "300px", objectFit: "cover" }}
+                      />
                     </div>
-                    <div>
-                      <button
-                        className={`btn mt-3 ${
-                          isInCart(selectedService.title)
-                            ? "btn-danger"
-                            : "btn-primary"
-                        }`}
-                        onClick={() => handleCartAction(selectedService)}
-                      >
-                        <i
-                          className={`bi me-2 ${
+
+                    <div className="col-md-7">
+                      <p className="mb-2">
+                        {selectedService.description ||
+                          "No description available."}
+                      </p>
+
+                      <p className="mb-2">
+                        <i className="bi bi-star-fill text-warning"></i>{" "}
+                        {selectedService.rating || "0.0"} (
+                        {selectedService.views_count || "0"} reviews)
+                      </p>
+
+                      {selectedService.view_details && (
+                        <p>
+                          <span className="badge bg-success">
+                            {selectedService.view_details}
+                          </span>
+                        </p>
+                      )}
+
+                      <div className="my-3 px-3 py-2 rounded bg-warning bg-opacity-25 d-inline-block">
+                        🔖 Starting at{" "}
+                        <strong>₹{selectedService.starts_at_price}</strong>
+                      </div>
+
+                      <div className="modal-footer px-0 mt-3 d-flex flex-column gap-2">
+                        <button
+                          className={`btn ${
                             isInCart(selectedService.title)
-                              ? "bi-cart-dash"
-                              : "bi-cart-plus"
-                          }`}
-                        />
-                        {isInCart(selectedService.title)
-                          ? "Remove from Cart"
-                          : "Add to Cart"}
-                      </button>
+                              ? "btn-danger"
+                              : "btn-warning"
+                          } w-100`}
+                          onClick={() => handleCartToggle(selectedService)}
+                        >
+                          <i
+                            className={`bi me-2 ${
+                              isInCart(selectedService.title)
+                                ? "bi-cart-dash"
+                                : "bi-cart-plus"
+                            }`}
+                          />
+                          {isInCart(selectedService.title)
+                            ? "Remove from Cart"
+                            : "Add to Cart"}
+                        </button>
+
+                        <button
+                          className="btn btn-success w-100"
+                          onClick={() =>
+                            navigate(
+                              `/professionals/${encodeURIComponent(
+                                selectedService.title
+                              )}`
+                            )
+                          }
+                        >
+                          <i className="bi bi-calendar-check-fill me-2" />
+                          Book Now
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
-                {/* End Modal Body */}
               </div>
             </div>
           </div>
