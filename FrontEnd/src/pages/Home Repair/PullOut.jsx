@@ -6,10 +6,15 @@ import Header from "@/components/Navbar";
 import { useCart } from "../context/CartContext";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
+import Lottie from "lottie-react";
+import serviceLoader from "../../assets/service-loader.json";
 
 const PullOut_installation = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [services, setServices] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const navigate = useNavigate();
   const { addToCart, removeFromCart, cartItems } = useCart();
 
   const selectedCategories = ["Pull-Out Installation", "Pull-Out Repair"];
@@ -17,13 +22,17 @@ const PullOut_installation = () => {
   useEffect(() => {
     const fetchALL = async () => {
       try {
-        const response = await fetch("https://hearth-hand.onrender.com/repair/repair");
+        const response = await fetch(
+          "https://hearth-hand.onrender.com/repair/repair"
+        );
         if (!response.ok) throw new Error("Failed to fetch services");
         const data = await response.json();
         setServices(data);
       } catch (error) {
         console.error("Fetch error:", error);
         toast.error("Failed to load services. Please try again later.");
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchALL();
@@ -47,42 +56,58 @@ const PullOut_installation = () => {
       <div className="container pt-0 pb-5">
         <ToastContainer position="bottom-right" style={{ padding: 0 }} />
 
-        <div className="row">
-          {filteredServices.map((service) => (
-            <div
-              key={service.id || service.title}
-              className="col-12 col-md-6 col-lg-4 mb-4"
-              onClick={() => setSelectedService(service)}
-              style={{ cursor: "pointer" }}
-            >
-              <div className="card h-100 text-center shadow-sm">
-                <img
-                  src={service.image}
-                  alt={service.title}
-                  className="card-img-top"
-                  style={{ height: "280px", objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{service.title}</h5>
-                  <p className="text-muted">
-                    {service.description.slice(0, 60)}...
-                  </p>
-                  <p>
-                    <strong>₹{service.starts_at_price}</strong>
-                  </p>
+        {isLoading ? (
+          <div
+            className="d-flex flex-column justify-content-center align-items-center"
+            style={{ height: "60vh" }}
+          >
+            <Lottie
+              animationData={serviceLoader}
+              loop={true}
+              style={{ height: 200 }}
+            />
+            <p className="text-primary fw-semibold mt-3">
+              Loading services, please wait...
+            </p>
+          </div>
+        ) : (
+          <div className="row">
+            {filteredServices.map((service) => (
+              <div
+                key={service.id || service.title}
+                className="col-12 col-md-6 col-lg-4 mb-4"
+                onClick={() => setSelectedService(service)}
+                style={{ cursor: "pointer" }}
+              >
+                <div className="card h-100 text-center shadow-sm">
+                  <img
+                    src={service.image}
+                    alt={service.title}
+                    className="card-img-top"
+                    style={{ height: "280px", objectFit: "cover" }}
+                  />
+                  <div className="card-body">
+                    <h5 className="card-title">{service.title}</h5>
+                    <p className="text-muted">
+                      {service.description.slice(0, 60)}...
+                    </p>
+                    <p>
+                      <strong>₹{service.starts_at_price}</strong>
+                    </p>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
 
-          {filteredServices.length === 0 && (
-            <div className="col-12">
-              <p className="text-muted text-center">
-                No services found for "{filteredServices}" category.
-              </p>
-            </div>
-          )}
-        </div>
+            {filteredServices.length === 0 && (
+              <div className="col-12">
+                <p className="text-muted text-center">
+                  No services found for selected categories.
+                </p>
+              </div>
+            )}
+          </div>
+        )}
 
         {selectedService && (
           <div
@@ -137,6 +162,18 @@ const PullOut_installation = () => {
                       {isInCart(selectedService.title)
                         ? "Remove from Cart"
                         : "Add to Cart"}
+                    </button>
+                    <button
+                      className="btn btn-success mt-2 w-100"
+                      onClick={() =>
+                        navigate(
+                          `/professionals/${encodeURIComponent(
+                            selectedService.title
+                          )}`
+                        )
+                      }
+                    >
+                      <i className="bi bi-calendar-check-fill me-2" /> Book Now
                     </button>
                   </div>
 
