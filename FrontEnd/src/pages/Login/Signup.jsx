@@ -7,7 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
-import "../../styles/LoginReg/Login.css";
+import "../../styles/LoginReg/register.css";
 
 export const Signup = () => {
   const [formData, setFormData] = useState({
@@ -54,7 +54,7 @@ export const Signup = () => {
       );
 
       toast.success(response.data?.message || "Registered successfully!");
-      setTimeout(() => navigate("/login"), 1000);
+      setTimeout(() => navigate("/home"), 1000);
       setFormData({ name: "", email: "", password: "" });
     } catch (error) {
       console.error("Signup error:", error?.response?.data || error.message);

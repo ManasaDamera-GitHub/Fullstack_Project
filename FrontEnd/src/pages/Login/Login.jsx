@@ -4,6 +4,7 @@ import { MdOutlineEmail } from "react-icons/md";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
 import { toast, ToastContainer } from "react-toastify";
+import "../../styles/LoginReg/Login.css";
 import axios from "axios";
 
 const Login = () => {
@@ -24,12 +25,16 @@ const Login = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post("https://hearth-hand.onrender.com/login", formData, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        withCredentials: true,
-      });
+      const res = await axios.post(
+        "https://hearth-hand.onrender.com/login",
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+          withCredentials: true,
+        }
+      );
 
       toast.success(res.data?.message || "Logged in successfully");
       setTimeout(() => {
@@ -56,7 +61,7 @@ const Login = () => {
             <img className="brand-logo" src="/Logo.png" alt="" />
             <h5 className="brand-title">HearthHand</h5>
           </div>
-          <Link to={"/register"}>
+          <Link to={"/signup"}>
             <button className="btn-primary">Sign up</button>
           </Link>
         </div>
