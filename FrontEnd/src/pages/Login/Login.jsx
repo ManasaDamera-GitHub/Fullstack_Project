@@ -26,7 +26,7 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "https://hearth-hand.onrender.com/login",
+        "https://hearth-hand.onrender.com/login/login",
         formData,
         {
           headers: {
