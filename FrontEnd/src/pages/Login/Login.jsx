@@ -26,13 +26,13 @@ const Login = () => {
 
     try {
       const res = await axios.post(
-        "https://hearth-hand.onrender.com/login/login",
+        "https://hearth-hand.onrender.com/signup/login",
         formData,
         {
           headers: {
             "Content-Type": "application/json",
           },
-          withCredentials: true,
+          // withCredentials: true,
         }
       );
 

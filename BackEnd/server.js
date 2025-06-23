@@ -47,7 +47,7 @@ app.use("/profUpdate", ProfessionalRouter);
 app.use("/bookings", BookingRouter);
 app.use("/reviews", ReviewRoutes);
 app.use("/signup", UserRoutes);
-app.use("/login", UserRoutes);
+// app.use("/login", UserRoutes);
 
 mongoose
   .connect(process.env.ATLAS_URI)
