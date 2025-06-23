@@ -6,6 +6,7 @@ import { RiLockPasswordLine } from "react-icons/ri";
 import { FcGoogle } from "react-icons/fc";
 import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
+import "react-toastify/dist/ReactToastify.css";
 import "../../styles/LoginReg/Login.css";
 
 export const Signup = () => {
@@ -25,30 +26,38 @@ export const Signup = () => {
     e.preventDefault();
     setLoading(true);
 
+    // Client-side validation
+    if (!formData.name || !formData.email || !formData.password) {
+      toast.error("Please fill all fields");
+      setLoading(false);
+      return;
+    }
+    if (!formData.email.includes("@") || !formData.email.includes(".")) {
+      toast.error("Please enter a valid email");
+      setLoading(false);
+      return;
+    }
+    if (formData.password.length < 6) {
+      toast.error("Password must be at least 6 characters");
+      setLoading(false);
+      return;
+    }
+
     try {
       const response = await axios.post(
-        "https://hearth-hand.onrender.com/Signup",
+        "https://hearth-hand.onrender.com/signup/signup",
         formData,
         {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
+          headers: { "Content-Type": "application/json" },
+          // withCredentials: true,
         }
       );
 
       toast.success(response.data?.message || "Registered successfully!");
-      setTimeout(() => {
-        navigate("/login");
-      }, 1000);
-
-      setFormData({
-        name: "",
-        email: "",
-        password: "",
-      });
+      setTimeout(() => navigate("/login"), 1000);
+      setFormData({ name: "", email: "", password: "" });
     } catch (error) {
-      console.log(error.message);
+      console.error("Signup error:", error?.response?.data || error.message);
       toast.error(error.response?.data?.message || "Something went wrong");
     } finally {
       setLoading(false);
@@ -58,7 +67,6 @@ export const Signup = () => {
   return (
     <div className="signup-container">
       <div className="signup-form-wrapper">
-        {/* Top Header */}
         <div className="signup-header">
           <div className="signup-brand">
             <img
@@ -73,7 +81,6 @@ export const Signup = () => {
           </Link>
         </div>
 
-        {/* Sign Up Title */}
         <h2 className="signup-title">Sign Up</h2>
         <p className="signup-subtitle">Enter your details to proceed further</p>
 
@@ -85,8 +92,8 @@ export const Signup = () => {
                 type="text"
                 placeholder="Name"
                 className="form-input"
-                value={formData.name}
                 name="name"
+                value={formData.name}
                 onChange={handleChange}
                 disabled={loading}
               />

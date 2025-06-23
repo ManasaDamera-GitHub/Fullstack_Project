@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
+const cors = require("cors");
 dotenv.config();
 const WallPanelRouter = require("./Routes/WallPanelRouter");
 const ACServiceRouter = require("./Routes/AcRoutes");
@@ -16,9 +17,19 @@ const WomenSpaRouter = require("./Routes/WomenSpaRouter");
 const ProfessionalRouter = require("./Routes/ProfessionalRoutes");
 const BookingRouter = require("./Routes/BookingRoutes");
 const ReviewRoutes = require("./Routes/ReviewRoutes");
+const UserRoutes = require("./Routes/UserRoutes");
 
 const app = express();
 app.use(express.json());
+app.use(
+  cors({
+    origin: ["http://localhost:5173", "https://hearthhand.vercel.app"],
+    credentials: true,
+  })
+);
+
+app.use(express.json());
+
 app.use("/wall", WallPanelRouter);
 app.use("/ac", ACServiceRouter);
 app.use("/cleaningPest", CleaningPestRouter);
@@ -35,7 +46,8 @@ app.use("/professional", ProfessionalRouter);
 app.use("/profUpdate", ProfessionalRouter);
 app.use("/bookings", BookingRouter);
 app.use("/reviews", ReviewRoutes);
-
+app.use("/signup", UserRoutes);
+app.use("/", UserRoutes);
 mongoose
   .connect(process.env.ATLAS_URI)
   .then(() => {
