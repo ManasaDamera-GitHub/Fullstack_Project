@@ -59,7 +59,7 @@ const Login = () => {
       <div className="login-card">
         <div className="login-header">
           <div className="brand">
-            <img className="brand-logo" src="/logo.png" alt="" />
+            <img className="brand-logo" src="/logo.png" alt="Logo" />
             <h5 className="brand-title">HearthHand</h5>
           </div>
           <Link to={"/signup"}>
