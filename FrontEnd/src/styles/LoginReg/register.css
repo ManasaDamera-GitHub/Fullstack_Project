@@ -41,7 +41,7 @@ section{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
 }
 
 .signup-brand {
@@ -87,14 +87,14 @@ section{
 
 .signup-subtitle {
   color: #666;
-  margin-bottom: 30px;
+  margin-bottom: 10px;
   font-size: 0.9rem;
 }
 
 .signup-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  /* gap: 20px; */
 }
 
 .form-group {
