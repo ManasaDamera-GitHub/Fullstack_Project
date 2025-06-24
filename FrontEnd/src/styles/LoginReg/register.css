@@ -10,7 +10,9 @@ html, body {
   height: 100%;
   /* overflow-y: hidden;  */
 }
-
+section{
+  padding: 0 ;
+}
 .signup-container {
   display: flex;
   justify-content: center;
@@ -297,21 +299,4 @@ html, body {
     padding: 12px;
     font-size: 0.9rem;
   }
-}
-/* Add to your existing CSS */
-.signup-container {
-  align-items: flex-start;
-  padding: 0 !important; 
-}
-
-.signup-form-wrapper {
-  margin-top: 0;
-  position: relative;
-  top: 0;
-}
-
-/* Ensure no other elements are pushing it down */
-.signup-header {
-  margin-top: 0;
-  padding-top: 0;
 }
