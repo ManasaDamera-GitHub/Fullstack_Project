@@ -73,8 +73,9 @@ const Header = () => {
             <FiShoppingCart className="cart-icon-img" />
             {cartItems > 0 && <span className="cart-count">{cartItems}</span>}
           </a>
-          <a href="/login" className="login-icon" aria-label="Login">
+          <a href="/" className="login-icon" aria-label="Logout">
             <FiUser className="user-icon" />
+            Logout
           </a>
         </div>
       </div>

@@ -1,5 +1,6 @@
 import "./App.css";
 import Header from "./components/Navbar";
+import Footer from "./pages/Footer/Footer";
 import MyCarousel from "./pages/LandingPage/Lp1";
 import { Purifier } from "./pages/LandingPage/Lp10";
 import Repair from "./pages/LandingPage/Lp11";
@@ -32,6 +33,7 @@ function LandingPage() {
         <M_Salon />
         {/* <Purifier /> */}
         <HomeRepair />
+        <Footer />
       </div>
     </>
   );

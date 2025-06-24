@@ -4,11 +4,13 @@ const router = express.Router();
 const User = require("../Model/UserSchema");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const dotenv = require("dotenv");
+dotenv.config();
 
 router.post("/signup", signUp);
 
 router.post("/login", async (req, res) => {
-    console.log(req.body)
+  console.log(req.body);
   try {
     const { email, password } = req.body;
 
@@ -28,15 +30,15 @@ router.post("/login", async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
-    const token = jwt
-      .status(200)
-      .json({
-        message: "Login successful",
-        token,
-        user: { id: user._id, name: user.name, email: user, email },
-      });
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
+    console.log(token);
+    res.status(200).json({
+      message: "Login Successful",
+      token,
+      user: { id: user._id, name: user.name, email: user.email },
+    });
   } catch (error) {
-    console.log(error.message);
+    console.log("Login error: ", error.message);
     res.status(500).json({ message: "Login failed" });
   }
 });
