@@ -111,7 +111,9 @@ const Login = () => {
         </form>
 
         <div className="divider">Or</div>
-
+        <Link to={"/home"} className="guest-login-link">
+          <p className="guest-login-text">Guest Login</p>
+        </Link>
         <button className="btn-google">
           <FcGoogle />
           Sign in with Google

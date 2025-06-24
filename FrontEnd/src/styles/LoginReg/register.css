@@ -300,8 +300,8 @@ html, body {
 }
 /* Add to your existing CSS */
 .signup-container {
-  align-items: flex-start; /* Align to top instead of center */
-  padding: 0 20px; /* Only horizontal padding */
+  align-items: flex-start;
+  padding: 0 !important; 
 }
 
 .signup-form-wrapper {
