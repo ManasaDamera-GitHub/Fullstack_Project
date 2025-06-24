@@ -8,6 +8,7 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  overflow-y: hidden; 
 }
 /* section{
   padding: 0;
@@ -16,14 +17,14 @@ html, body {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 100vh;
+  height: 100vh;
   background-image: url('./LoginBG.png');
   background-size: cover;
-  background-position: center center; /* Explicitly center */
+  background-position: center center; 
   background-repeat: no-repeat;
   padding: 20px;
   margin: 0;
-  overflow-y: hidden; /* Prevent scrollbars if image is large */
+  
 }
 
 /* Rest of your existing CSS... */
