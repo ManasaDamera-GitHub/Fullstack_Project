@@ -21,7 +21,7 @@ import HairColor from "./pages/MenSalon/HairColor";
 import Facial from "./pages/MenSalon/Facial";
 import AllMenServices from "./pages/MenSalon/AllMenServices";
 import Cart from "./pages/context/Cart";
-import "./App.css";
+// import "./App.css";
 import ACAppliances from "./pages/Ac/AC&Appliance";
 import AllWallPanel from "./pages/WallPanel/FullWallPanel";
 import SmartLockServices from "./pages/SmartLock/SmartLock";
