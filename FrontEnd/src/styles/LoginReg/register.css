@@ -16,14 +16,14 @@ section{
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  min-height: 100vh;
   background-image: url('./LoginBG.png');
   background-size: cover;
-  background-position: center center; 
+  background-position: center center; /* Explicitly center */
   background-repeat: no-repeat;
   padding: 20px;
   margin: 0;
-  overflow-y: hidden; 
+  overflow-y: hidden; /* Prevent scrollbars if image is large */
 }
 
 /* Rest of your existing CSS... */
