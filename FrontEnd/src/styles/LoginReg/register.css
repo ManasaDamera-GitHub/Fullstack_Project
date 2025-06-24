@@ -8,11 +8,11 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  overflow-y: hidden; 
+  /* overflow-y: hidden;  */
 }
-/* section{
-  padding: 0;
-} */
+section{
+  margin-top: 0;
+}
 .signup-container {
   display: flex;
   justify-content: center;
