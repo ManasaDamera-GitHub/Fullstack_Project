@@ -11,7 +11,7 @@ html, body {
   /* overflow-y: hidden;  */
 }
 section{
-  margin-top: 0;
+  padding: 0 !important;
 }
 .signup-container {
   display: flex;
