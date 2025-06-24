@@ -10,9 +10,7 @@ html, body {
   height: 100%;
   /* overflow-y: hidden;  */
 }
-section{
-  padding: 0 !important;
-}
+
 .signup-container {
   display: flex;
   justify-content: center;
