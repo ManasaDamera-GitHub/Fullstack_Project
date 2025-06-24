@@ -76,7 +76,7 @@ export const Signup = () => {
             />
             <h5 className="signup-brand-name">HearthHand</h5>
           </div>
-          <Link to={"/Login"}>
+          <Link to={"/"}>
             <button className="signup-login-btn">Login</button>
           </Link>
         </div>

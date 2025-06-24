@@ -298,3 +298,20 @@ html, body {
     font-size: 0.9rem;
   }
 }
+/* Add to your existing CSS */
+.signup-container {
+  align-items: flex-start; /* Align to top instead of center */
+  padding: 0 20px; /* Only horizontal padding */
+}
+
+.signup-form-wrapper {
+  margin-top: 0;
+  position: relative;
+  top: 0;
+}
+
+/* Ensure no other elements are pushing it down */
+.signup-header {
+  margin-top: 0;
+  padding-top: 0;
+}
