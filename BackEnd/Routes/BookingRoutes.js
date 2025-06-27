@@ -1,65 +1,112 @@
-// const express = require("express");
-// const mongoose = require("mongoose");
-// const router = express.Router();
-// const Booking = require("../Model/BookingSchema");
-
-// router.post("/bookings", async (req, res) => {
-//   try {
-//     const newBooking = new Booking(req.body);
-//     await newBooking.save();
-//     res
-//       .status(201)
-//       .json({ message: "Booking successful", booking: newBooking });
-//   } catch (error) {
-//     res.status(500).json({ error: "Booking Failed" });
-//   }
-// });
-
-// module.exports = router;
-
-// backend/routes/Bookings.js
 const express = require("express");
 const router = express.Router();
+
+// Models
 const Professional = require("../Model/ProfessionalSchema");
+const Booking = require("../Model/BookingSchema");
+const AcService = require("../Model/AcServicesSchema");
+const RepairService = require("../Model/RepairSchema");
+const WomenSalonService = require("../Model/WomenSchema");
+const WomenSpaService = require("../Model/WomenSpaSchema");
+const CleaningService = require("../Model/CleaningPestSchema");
+const ElectricianService = require("../Model/ElectricianSchema");
+const MenService = require("../Model/MenSchema");
+const Painting = require("../Model/PaintingSchema");
+const WallPanelService = require("../Model/WallPanelSchema");
+const WaterPurifierService = require("../Model/WaterPurifierSchema");
+const SmartLockService = require("../Model/SmartLockSchema");
 
-// Add a booking
-router.post("/", async (req, res) => {
-  const { userName, date, time, professionalId } = req.body;
-  if (!userName || !date || !time || !professionalId) {
-    return res.status(400).json({ error: "Missing fields" });
+// 🔁 Service model map for dynamic lookup
+const serviceModels = {
+  AcService,
+  RepairService,
+  WomenSalonService,
+  WomenSpaService,
+  CleaningService,
+  ElectricianService,
+  MenService,
+  Painting,
+  WallPanelService,
+  WaterPurifierService,
+  SmartLockService,
+};
+
+// ✅ Route: Create a booking without token (POST /bookings/public)
+router.post("/servicebooking", async (req, res) => {
+  const {
+    userId,
+    userName,
+    serviceId,
+    serviceType,
+    serviceTitle,
+    professionalId,
+    date,
+    time,
+    address,
+    notes = "",
+    paymentType = "Cash on Delivery",
+  } = req.body;
+
+  // 🔎 Validate required fields
+  if (
+    !userId ||
+    !userName ||
+    !serviceId ||
+    !serviceType ||
+    !professionalId ||
+    !date ||
+    !time ||
+    !address
+  ) {
+    return res.status(400).json({ message: "All fields are required" });
   }
 
   try {
+    const ServiceModel = serviceModels[serviceType];
+    if (!ServiceModel) {
+      return res.status(400).json({ message: "Invalid service type" });
+    }
+
+    const service = await ServiceModel.findById(serviceId);
+    if (!service) {
+      return res.status(404).json({ message: "Service not found" });
+    }
+
     const professional = await Professional.findById(professionalId);
-    if (!professional)
-      return res.status(404).json({ error: "Professional not found" });
+    if (!professional) {
+      return res.status(404).json({ message: "Professional not found" });
+    }
 
-    const newBooking = { userName, date, time };
-    professional.bookings.push(newBooking);
-    await professional.save();
+    // ✅ Create booking
+    const booking = new Booking({
+      userId,
+      userName,
+      serviceId,
+      serviceType,
+      serviceTitle,
+      professionalId,
+      professionalName: professional.name,
+      price: service.starts_at_price || service.price || 0,
+      date,
+      time,
+      address,
+      notes,
+      paymentType,
+      status: "Pending",
+    });
 
-    res.status(201).json(newBooking);
-  } catch (err) {
-    res.status(500).json({ error: "Failed to create booking" });
-  }
-});
+    await booking.save();
 
-// Cancel a booking
-router.put("/cancel", async (req, res) => {
-  const { professionalId, bookingId } = req.body;
-  try {
-    const professional = await Professional.findById(professionalId);
-    if (!professional)
-      return res.status(404).json({ error: "Professional not found" });
-
-    const booking = professional.bookings.id(bookingId);
-    if (!booking) return res.status(404).json({ error: "Booking not found" });
-
-    booking.status = "cancelled";
-    await professional.save();
-    res.json(booking);
-  } catch (err) {
-    res.status(500).json({ error: "Error cancelling booking" });
+    return res.status(201).json({
+      message: "Booking successful (without token)",
+      booking,
+    });
+  } catch (error) {
+    console.error("Booking error:", error.message);
+    return res.status(500).json({
+      message: "Internal server error",
+      error: error.message,
+    });
   }
 });
 

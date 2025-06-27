@@ -33,11 +33,16 @@ const Login = () => {
             "Content-Type": "application/json",
             Accept: "application/json",
           },
-          // withCredentials: true,
         }
       );
 
-      toast.success(res.data?.message || "Logged in successfully");
+      // ✅ Save token and user info to localStorage
+      const { token, user, message } = res.data;
+      localStorage.setItem("token", token);
+      localStorage.setItem("userId", user.id);
+      localStorage.setItem("userName", user.name);
+
+      toast.success(message || "Logged in successfully");
       setTimeout(() => {
         navigate("/home");
       }, 1000);
@@ -105,8 +110,8 @@ const Login = () => {
               </span>
             </div>
           </div>
-          <button type="submit" className="btn-primary">
-            Login
+          <button type="submit" className="btn-primary" disabled={loading}>
+            {loading ? "Logging in..." : "Login"}
           </button>
         </form>
 

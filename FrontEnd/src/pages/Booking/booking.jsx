@@ -1,208 +1,136 @@
-// import React, { useEffect, useState } from "react";
-// import { useParams } from "react-router-dom";
-// import "bootstrap/dist/css/bootstrap.min.css";
-// import Header from "@/components/Navbar";
-
-// const BookingPage = () => {
-//   const { serviceId } = useParams();
-//   const [professionals, setProfessionals] = useState([]);
-//   const [selectedPro, setSelectedPro] = useState(null);
-//   const [reviewText, setReviewText] = useState("");
-//   const [userName, setUserName] = useState("");
-
-//   useEffect(() => {
-//     const fetchProfessionals = async () => {
-//       try {
-//         const res = await fetch(
-//           `http://localhost:3000/professionals?serviceId=${serviceId}`
-//         );
-//         const data = await res.json();
-//         setProfessionals(data);
-//       } catch (err) {
-//         console.error("Error fetching professionals:", err);
-//       }
-//     };
-
-//     fetchProfessionals();
-//   }, [serviceId]);
-
-//   const handleSubmitReview = async () => {
-//     if (!userName || !reviewText) {
-//       alert("Please enter name and review");
-//       return;
-//     }
-
-//     const newReview = {
-//       name: userName,
-//       comment: reviewText,
-//       professionalId: selectedPro._id,
-//     };
-
-//     try {
-//       const res = await fetch(
-//         "http://localhost:3000/professional/professional",
-//         {
-//           method: "POST",
-//           headers: { "Content-Type": "application/json" },
-//           body: JSON.stringify(newReview),
-//         }
-//       );
-//       const savedReview = await res.json();
-
-//       setSelectedPro((prev) => ({
-//         ...prev,
-//         reviews: [...prev.reviews, savedReview],
-//       }));
-
-//       setReviewText("");
-//       setUserName("");
-//       alert("Review submitted!");
-//     } catch (err) {
-//       console.error("Error submitting review:", err);
-//     }
-//   };
-
-//   return (
-//     <>
-//       <Header />
-//       <div className="container py-5">
-//         <h2 className="mb-4">Select a Professional</h2>
-
-//         <div className="row">
-//           {professionals.map((pro) => (
-//             <div
-//               key={pro._id}
-//               className="col-md-4 mb-4"
-//               onClick={() => setSelectedPro(pro)}
-//               style={{ cursor: "pointer" }}
-//             >
-//               <div className="card shadow-sm h-100">
-//                 <img
-//                   src={pro.image}
-//                   alt={pro.name}
-//                   className="card-img-top"
-//                   style={{ height: "200px", objectFit: "cover" }}
-//                 />
-//                 <div className="card-body">
-//                   <h5 className="card-title">{pro.name}</h5>
-//                   <p>{pro.experience} years experience</p>
-//                   <p>
-//                     Rating: <i className="bi bi-star-fill text-warning"></i>{" "}
-//                     {pro.rating}
-//                   </p>
-//                 </div>
-//               </div>
-//             </div>
-//           ))}
-//         </div>
-
-//         {selectedPro && (
-//           <div className="mt-5">
-//             <h4>{selectedPro.name}'s Profile</h4>
-//             <p>Experience: {selectedPro.experience} years</p>
-//             <p>Rating: {selectedPro.rating}</p>
-
-//             <h5 className="mt-4">Reviews</h5>
-//             <ul className="list-group mb-4">
-//               {selectedPro.reviews?.length > 0 ? (
-//                 selectedPro.reviews.map((r, idx) => (
-//                   <li key={idx} className="list-group-item">
-//                     <strong>{r.name}:</strong> {r.comment}
-//                   </li>
-//                 ))
-//               ) : (
-//                 <li className="list-group-item text-muted">No reviews yet.</li>
-//               )}
-//             </ul>
-
-//             <div className="card p-3 shadow-sm">
-//               <h5>Write a Review</h5>
-//               <input
-//                 type="text"
-//                 placeholder="Your name"
-//                 value={userName}
-//                 onChange={(e) => setUserName(e.target.value)}
-//                 className="form-control mb-2"
-//               />
-//               <textarea
-//                 rows="3"
-//                 placeholder="Write your review..."
-//                 value={reviewText}
-//                 onChange={(e) => setReviewText(e.target.value)}
-//                 className="form-control mb-2"
-//               />
-//               <button className="btn btn-primary" onClick={handleSubmitReview}>
-//                 Submit Review
-//               </button>
-//             </div>
-//           </div>
-//         )}
-//       </div>
-//     </>
-//   );
-// };
-
-// export default BookingPage;
-
-// BookingSection.jsx
 import React, { useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "../styles/BookingPage.css";
+import axios from "axios";
 
-const BookingSection = ({ professionalId, onBookingSuccess }) => {
-  const [userName, setUserName] = useState("");
-  const [date, setDate] = useState("");
-  const [time, setTime] = useState("");
+const BookingPage = () => {
+  const { serviceTitle, serviceType, serviceId, professionalId } = useParams();
+  const navigate = useNavigate();
 
-  const handleBooking = async () => {
-    if (!userName || !date || !time) {
-      alert("All fields are required");
+  const [formData, setFormData] = useState({
+    date: "",
+    time: "",
+    address: "",
+    paymentType: "",
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const { date, time, address, paymentType } = formData;
+    const userId = localStorage.getItem("userId");
+    const userName = localStorage.getItem("userName");
+
+    if (!userId) {
+      toast.error("Please log in to continue.");
       return;
     }
 
-    const res = await fetch("https://hearth-hand.onrender.com/bookings/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userName, date, time, professionalId }),
-    });
+    if (!date || !time || !address || !paymentType) {
+      toast.error("Please fill all the fields");
+      return;
+    }
 
-    if (res.ok) {
-      alert("Booking confirmed!");
-      setUserName("");
-      setDate("");
-      setTime("");
-      onBookingSuccess(); // Refresh data
-    } else {
-      const err = await res.json();
-      alert(err.error || "Booking failed");
+    const bookingData = {
+      userId,
+      userName,
+      serviceTitle,
+      serviceType,
+      serviceId,
+      professionalId,
+      date,
+      time,
+      address,
+      paymentType,
+    };
+    console.log("Sending booking data:", bookingData);
+
+    try {
+      const res = await axios.post(
+        "http://localhost:3000/servicebooking",
+        bookingData
+      );
+
+      if (res.status === 201) {
+        toast.success(`Booking confirmed via ${paymentType}!`);
+        navigate("/my-bookings");
+      } else {
+        toast.error("Booking failed. Try again.");
+      }
+    } catch (err) {
+      toast.error("Server error. Please try again later.");
     }
   };
 
   return (
-    <div className="card p-3 shadow-sm mt-4">
-      <h5>Book This Professional</h5>
-      <input
-        type="text"
-        placeholder="Your name"
-        className="form-control mb-2"
-        value={userName}
-        onChange={(e) => setUserName(e.target.value)}
-      />
-      <input
-        type="date"
-        className="form-control mb-2"
-        value={date}
-        onChange={(e) => setDate(e.target.value)}
-      />
-      <input
-        type="time"
-        className="form-control mb-2"
-        value={time}
-        onChange={(e) => setTime(e.target.value)}
-      />
-      <button className="btn btn-success" onClick={handleBooking}>
-        Confirm Booking
-      </button>
+    <div className="container mt-5">
+      <h2 className="text-center mb-4">Book {serviceTitle}</h2>
+      <form className="booking-form" onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label className="form-label">Select Date</label>
+          <input
+            type="date"
+            name="date"
+            className="form-control"
+            value={formData.date}
+            onChange={handleChange}
+            min={new Date().toISOString().split("T")[0]}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Select Time</label>
+          <input
+            type="time"
+            name="time"
+            className="form-control"
+            value={formData.time}
+            onChange={handleChange}
+          />
+        </div>
+
+        <div className="mb-3">
+          <label className="form-label">Service Address</label>
+          <textarea
+            name="address"
+            className="form-control"
+            placeholder="Enter your full address"
+            rows="3"
+            value={formData.address}
+            onChange={handleChange}
+          ></textarea>
+        </div>
+
+        <div className="mb-4">
+          <label className="form-label">Payment Type</label>
+          <select
+            name="paymentType"
+            className="form-select"
+            value={formData.paymentType}
+            onChange={handleChange}
+          >
+            <option value="">Select Payment Method</option>
+            <option value="Online">Online</option>
+            <option value="Cash on Delivery">Cash on Delivery</option>
+          </select>
+        </div>
+
+        <button type="submit" className="btn btn-primary w-100">
+          Confirm Booking
+        </button>
+      </form>
     </div>
   );
 };
 
-export default BookingSection;
+export default BookingPage;

@@ -16,7 +16,7 @@ const ProfessionalsPage = () => {
     const fetchProfessionals = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/professional?serviceTitle=${encodeURIComponent(
+          `https://hearth-hand.onrender.com/professional?serviceTitle=${encodeURIComponent(
             serviceTitle
           )}`
         );
@@ -71,7 +71,13 @@ const ProfessionalsPage = () => {
                       <button
                         className="btn btn-primary mt-2"
                         onClick={() =>
-                          navigate(`/booking/${serviceTitle}/${pro._id}`)
+                          navigate(`/booking/${serviceTitle}/${pro._id}`, {
+                            state: {
+                              professionalId: pro._id,
+                              serviceType: serviceTitle,
+                              professional: pro,
+                            },
+                          })
                         }
                       >
                         Continue Booking

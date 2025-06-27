@@ -36,8 +36,10 @@ import Door_Installation from "./pages/Home Repair/Door";
 import Fan_Installation from "./pages/Home Repair/Fan";
 import Bed_Installation from "./pages/Home Repair/Bed";
 import Apartment_Terminate_control from "./pages/Home Repair/ApartmentTerminate";
-import BookingSection from "./pages/Booking/booking";
+// import BookingSection from "./pages/Booking/booking";
 import ProfessionalsPage from "./pages/Professional/Professional";
+import BookingPage from "./pages/Booking/booking";
+import MyBookings from "./pages/MyBookings/MyBookings";
 
 export const App = () => {
   return (
@@ -100,8 +102,9 @@ export const App = () => {
           />
           <Route
             path="/booking/:serviceTitle/:professionalId"
-            element={<BookingSection />}
+            element={<BookingPage />}
           />
+          <Route path="/my-bookings" element={<MyBookings />} />
         </Routes>
       </Router>
     </CartProvider>

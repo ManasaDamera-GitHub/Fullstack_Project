@@ -44,7 +44,7 @@ app.use("/womenSpa", WomenSpaRouter);
 app.use("/professional", ProfessionalRouter);
 app.use("/professional", ProfessionalRouter);
 app.use("/profUpdate", ProfessionalRouter);
-app.use("/bookings", BookingRouter);
+app.use("/", BookingRouter);
 app.use("/reviews", ReviewRoutes);
 app.use("/signup", UserRoutes);
 app.use("/", UserRoutes);
