@@ -169,7 +169,7 @@ const Tap = () => {
                         navigate(
                           `/professionals/${encodeURIComponent(
                             selectedService.title
-                          )}`
+                          )}/RepairService/${selectedService._id}`
                         )
                       }
                     >

@@ -189,7 +189,7 @@ const PaintingServices = () => {
                         navigate(
                           `/professionals/${encodeURIComponent(
                             selectedService.title
-                          )}`
+                          )}/Painting/${selectedService._id}`
                         )
                       }
                     >

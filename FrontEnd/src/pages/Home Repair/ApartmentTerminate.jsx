@@ -177,7 +177,7 @@ const Apartment_Terminate_control = () => {
                         navigate(
                           `/professionals/${encodeURIComponent(
                             selectedService.title
-                          )}`
+                          )}/RepairService/${selectedService._id}`
                         )
                       }
                     >

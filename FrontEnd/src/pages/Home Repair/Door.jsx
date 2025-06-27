@@ -22,7 +22,9 @@ const Door_Installation = () => {
   useEffect(() => {
     const fetchALL = async () => {
       try {
-        const response = await fetch("https://hearth-hand.onrender.com/repair/repair");
+        const response = await fetch(
+          "https://hearth-hand.onrender.com/repair/repair"
+        );
         if (!response.ok) throw new Error("Failed to fetch services");
         const data = await response.json();
         setServices(data);
@@ -55,9 +57,18 @@ const Door_Installation = () => {
         <ToastContainer position="bottom-right" style={{ padding: 0 }} />
 
         {isLoading ? (
-          <div className="d-flex flex-column justify-content-center align-items-center" style={{ height: "60vh" }}>
-            <Lottie animationData={serviceLoader} loop={true} style={{ height: 200 }} />
-            <p className="text-primary fw-semibold mt-3">Loading services, please wait...</p>
+          <div
+            className="d-flex flex-column justify-content-center align-items-center"
+            style={{ height: "60vh" }}
+          >
+            <Lottie
+              animationData={serviceLoader}
+              loop={true}
+              style={{ height: 200 }}
+            />
+            <p className="text-primary fw-semibold mt-3">
+              Loading services, please wait...
+            </p>
           </div>
         ) : (
           <div className="row">
@@ -77,8 +88,12 @@ const Door_Installation = () => {
                   />
                   <div className="card-body">
                     <h5 className="card-title">{service.title}</h5>
-                    <p className="text-muted">{service.description.slice(0, 60)}...</p>
-                    <p><strong>₹{service.starts_at_price}</strong></p>
+                    <p className="text-muted">
+                      {service.description.slice(0, 60)}...
+                    </p>
+                    <p>
+                      <strong>₹{service.starts_at_price}</strong>
+                    </p>
                   </div>
                 </div>
               </div>
@@ -112,7 +127,10 @@ const Door_Installation = () => {
               <div className="modal-content">
                 <div className="modal-header">
                   <h5 className="modal-title">{selectedService.title}</h5>
-                  <button className="btn-close" onClick={() => setSelectedService(null)}></button>
+                  <button
+                    className="btn-close"
+                    onClick={() => setSelectedService(null)}
+                  ></button>
                 </div>
                 <div className="modal-body d-flex flex-wrap">
                   <div className="d-flex flex-column align-items-center col-md-5 mb-3">
@@ -120,21 +138,40 @@ const Door_Installation = () => {
                       src={selectedService.image}
                       className="img-fluid rounded mb-3"
                       alt={selectedService.title}
-                      style={{ maxHeight: "300px", objectFit: "cover", width: "100%" }}
+                      style={{
+                        maxHeight: "300px",
+                        objectFit: "cover",
+                        width: "100%",
+                      }}
                     />
                     <div className="bg-warning bg-opacity-25 px-3 py-2 rounded w-100 text-center mb-2">
-                      Starting at <strong>₹{selectedService.starts_at_price}</strong>
+                      Starting at{" "}
+                      <strong>₹{selectedService.starts_at_price}</strong>
                     </div>
                     <button
                       className="btn-add w-100"
                       onClick={() => handleCartAction(selectedService)}
                     >
-                      <i className={`bi me-2 ${isInCart(selectedService.title) ? "bi-cart-dash" : "bi-cart-plus"}`} />
-                      {isInCart(selectedService.title) ? "Remove from Cart" : "Add to Cart"}
+                      <i
+                        className={`bi me-2 ${
+                          isInCart(selectedService.title)
+                            ? "bi-cart-dash"
+                            : "bi-cart-plus"
+                        }`}
+                      />
+                      {isInCart(selectedService.title)
+                        ? "Remove from Cart"
+                        : "Add to Cart"}
                     </button>
                     <button
                       className="btn btn-success mt-2 w-100"
-                      onClick={() => navigate(`/professionals/${encodeURIComponent(selectedService.title)}`)}
+                      onClick={() =>
+                        navigate(
+                          `/professionals/${encodeURIComponent(
+                            selectedService.title
+                          )}/RepairService/${selectedService._id}`
+                        )
+                      }
                     >
                       <i className="bi bi-calendar-check-fill me-2" /> Book Now
                     </button>
@@ -144,7 +181,9 @@ const Door_Installation = () => {
                     <p>{selectedService.description}</p>
                     <p>
                       <b>
-                        <i className="bi bi-star-fill text-warning"></i> {selectedService.rating} ({selectedService.views_count} reviews)
+                        <i className="bi bi-star-fill text-warning"></i>{" "}
+                        {selectedService.rating} ({selectedService.views_count}{" "}
+                        reviews)
                       </b>
                     </p>
                     <p className="fw-semibold">
@@ -159,7 +198,9 @@ const Door_Installation = () => {
                           ))}
                         </ul>
                       ) : (
-                        <p className="text-muted">Process information not available.</p>
+                        <p className="text-muted">
+                          Process information not available.
+                        </p>
                       )}
                     </div>
                   </div>

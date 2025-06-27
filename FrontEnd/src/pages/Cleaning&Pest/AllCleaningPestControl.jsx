@@ -8,7 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
-import serviceLoader from "../../assets/service-loader.json"; 
+import serviceLoader from "../../assets/service-loader.json";
 
 const AllCleaningPestControl = () => {
   const [selectedService, setSelectedService] = useState(null);
@@ -17,7 +17,7 @@ const AllCleaningPestControl = () => {
   const { addToCart, removeFromCart, cartItems } = useCart();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
-  
+
   useEffect(() => {
     const fetchALL = async () => {
       try {
@@ -195,7 +195,7 @@ const AllCleaningPestControl = () => {
                         navigate(
                           `/professionals/${encodeURIComponent(
                             selectedService.title
-                          )}`
+                          )}/CleaningService/${selectedService._id}`
                         )
                       }
                     >

@@ -169,7 +169,7 @@ const PullOut_installation = () => {
                         navigate(
                           `/professionals/${encodeURIComponent(
                             selectedService.title
-                          )}`
+                          )}/RepairService/${selectedService._id}`
                         )
                       }
                     >

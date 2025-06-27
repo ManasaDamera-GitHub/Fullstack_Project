@@ -198,7 +198,7 @@ const WaterPurifierServices = () => {
                         navigate(
                           `/professionals/${encodeURIComponent(
                             selectedService.title
-                          )}`
+                          )}/WaterPurifierService/${selectedService._id}`
                         )
                       }
                     >
