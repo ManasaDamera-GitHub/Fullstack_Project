@@ -198,7 +198,7 @@ const SmartLockServices = () => {
                         navigate(
                           `/professionals/${encodeURIComponent(
                             selectedService.title
-                          )}`
+                          )}/SmartLockService/${selectedService._id}`
                         )
                       }
                     >
