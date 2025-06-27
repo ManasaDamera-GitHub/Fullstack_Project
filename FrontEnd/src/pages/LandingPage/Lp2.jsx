@@ -15,7 +15,7 @@ function DoorStep() {
       text: "men's Salon",
       path: "/men-salon/all-services",
     },
-    { img: "Lp2/ac.jpeg", text: "AC& Appliance Repair", path: "/ac" },
+    { img: "Lp2/ac.jpeg", text: "AC & Appliance Repair", path: "/ac" },
     { img: "Lp2/locks.jpeg", text: "Smart locks", path: "/smart-locks" },
     { img: "Lp2/filter.jpeg", text: "Water Purifier", path: "/waterPurifier" },
     { img: "Lp2/elect.png", text: "Electrician", path: "/electrician" },

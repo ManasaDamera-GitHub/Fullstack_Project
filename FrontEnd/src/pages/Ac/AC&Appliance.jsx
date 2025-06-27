@@ -192,7 +192,7 @@ const ACAppliances = () => {
                         navigate(
                           `/professionals/${encodeURIComponent(
                             selectedService.title
-                          )}`
+                          )}/AcService/${selectedService._id}`
                         )
                       }
                     >

@@ -97,11 +97,11 @@ export const App = () => {
             element={<Apartment_Terminate_control />}
           />
           <Route
-            path="/professionals/:serviceTitle"
+            path="/professionals/:serviceTitle/:serviceType/:serviceId"
             element={<ProfessionalsPage />}
           />
           <Route
-            path="/booking/:serviceTitle/:professionalId"
+            path="/booking/:serviceTitle/:serviceType/:serviceId/:professionalId"
             element={<BookingPage />}
           />
           <Route path="/my-bookings" element={<MyBookings />} />
