@@ -196,7 +196,7 @@ const BeardStyling = () => {
                             navigate(
                               `/professionals/${encodeURIComponent(
                                 selectedService.title
-                              )}`
+                              )}/MenService/${selectedService._id}`
                             )
                           }
                         >

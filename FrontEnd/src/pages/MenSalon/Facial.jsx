@@ -22,9 +22,13 @@ const Facial = () => {
       try {
         setIsLoading(true);
         setError(null);
-        const response = await fetch("https://hearth-hand.onrender.com/men/men");
+        const response = await fetch(
+          "https://hearth-hand.onrender.com/men/men"
+        );
         const data = await response.json();
-        const facialServices = data.filter((service) => service.category === "Facial");
+        const facialServices = data.filter(
+          (service) => service.category === "Facial"
+        );
         setServices(facialServices);
       } catch (err) {
         console.error("Failed to fetch data:", err);
@@ -61,7 +65,11 @@ const Facial = () => {
             className="d-flex flex-column justify-content-center align-items-center"
             style={{ height: "60vh" }}
           >
-            <Lottie animationData={menServiceLoader} loop={true} style={{ height: 200 }} />
+            <Lottie
+              animationData={menServiceLoader}
+              loop={true}
+              style={{ height: 200 }}
+            />
             <p className="text-primary fw-semibold mt-3">
               Loading facial services...
             </p>
@@ -140,7 +148,8 @@ const Facial = () => {
 
                     <div className="col-md-7">
                       <p className="mb-2">
-                        {selectedService.description || "No description available."}
+                        {selectedService.description ||
+                          "No description available."}
                       </p>
 
                       <p className="mb-2">
@@ -158,7 +167,8 @@ const Facial = () => {
                       )}
 
                       <div className="my-3 px-3 py-2 rounded bg-warning bg-opacity-25 d-inline-block">
-                        🔖 Starting at <strong>₹{selectedService.starts_at_price}</strong>
+                        🔖 Starting at{" "}
+                        <strong>₹{selectedService.starts_at_price}</strong>
                       </div>
 
                       <div className="modal-footer px-0 mt-3 d-flex flex-column gap-2">
@@ -188,7 +198,7 @@ const Facial = () => {
                             navigate(
                               `/professionals/${encodeURIComponent(
                                 selectedService.title
-                              )}`
+                              )}/MenService/${selectedService._id}`
                             )
                           }
                         >

@@ -198,7 +198,7 @@ const Pedicure = () => {
                             navigate(
                               `/professionals/${encodeURIComponent(
                                 selectedService.title
-                              )}`
+                              )}/MenService/${selectedService._id}`
                             )
                           }
                         >
