@@ -178,7 +178,7 @@ const HairCare = () => {
                             navigate(
                               `/professionals/${encodeURIComponent(
                                 selectedService.title
-                              )}`
+                              )}/WomenSalonService/${selectedService._id}`
                             )
                           }
                         >

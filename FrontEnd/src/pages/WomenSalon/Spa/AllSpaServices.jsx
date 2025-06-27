@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "../../../styles/AllServices.css";
 import Lottie from "lottie-react";
 import womenServiceLoader from "../../../assets/women-loader.json";
+import { useNavigate } from "react-router-dom";
 
 const AllSpaServices = () => {
   const [selectedService, setSelectedService] = useState(null);
@@ -15,7 +16,7 @@ const AllSpaServices = () => {
   const [services, setServices] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { addToCart, removeFromCart, cartItems } = useCart();
-
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchALLSpa = async () => {
       try {
@@ -196,6 +197,19 @@ const AllSpaServices = () => {
                         )
                           ? "Remove from Cart"
                           : "Add to Cart"}
+                      </button>
+                      <button
+                        className="btn btn-success mt-2 w-100 modal-button-text"
+                        onClick={() =>
+                          navigate(
+                            `/professionals/${encodeURIComponent(
+                              selectedService.title
+                            )}/WomenSpaService/${selectedService._id}`
+                          )
+                        }
+                      >
+                        <i className="bi bi-calendar-check-fill me-2" />
+                        Book Now
                       </button>
                     </div>
                   </div>

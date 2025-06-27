@@ -181,10 +181,10 @@ const Waxing = () => {
                           className="btn btn-success w-100"
                           onClick={() =>
                             navigate(
-                              `/professionals/${encodeURIComponent(
-                                selectedService.title
-                              )}`
-                            )
+                            `/professionals/${encodeURIComponent(
+                              selectedService.title
+                            )}/WomenSalonService/${selectedService._id}`
+                          )
                           }
                         >
                           <i className="bi bi-calendar-check-fill me-2" />

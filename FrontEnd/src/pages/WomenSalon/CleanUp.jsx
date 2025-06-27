@@ -64,7 +64,11 @@ const CleanUp = () => {
             className="d-flex flex-column justify-content-center align-items-center"
             style={{ height: "60vh" }}
           >
-            <Lottie animationData={womenServiceLoader} loop={true} style={{ height: 200 }} />
+            <Lottie
+              animationData={womenServiceLoader}
+              loop={true}
+              style={{ height: 200 }}
+            />
             <p className="text-primary fw-semibold mt-3">
               Loading services, please wait...
             </p>
@@ -192,7 +196,7 @@ const CleanUp = () => {
                             navigate(
                               `/professionals/${encodeURIComponent(
                                 selectedService.title
-                              )}`
+                              )}/WomenSalonService/${selectedService._id}`
                             )
                           }
                         >

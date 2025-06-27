@@ -196,7 +196,7 @@ const AllServices = () => {
                         navigate(
                           `/professionals/${encodeURIComponent(
                             selectedService.title
-                          )}`
+                          )}/WomenSalonService/${selectedService._id}`
                         )
                       }
                     >
