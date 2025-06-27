@@ -196,7 +196,7 @@ const AllWallPanel = () => {
                         navigate(
                           `/professionals/${encodeURIComponent(
                             selectedService.title
-                          )}`
+                          )}/WallPanelService/${selectedService._id}`
                         )
                       }
                     >
