@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "../../styles/AllServices.css";
 import Header from "@/components/Navbar";
 import { useCart } from "../context/CartContext";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import womenServiceLoader from "../../assets/women-loader.json";
@@ -46,10 +47,10 @@ const CleanUp = () => {
   const handleCartToggle = (service) => {
     if (isInCart(service.title)) {
       removeFromCart(service.title);
-      toast.info("Removed from cart");
+      // toast.info("Removed from cart");
     } else {
       addToCart(service);
-      toast.success("Added to cart");
+      // toast.success("Added to cart");
     }
     closeModal();
   };
@@ -57,7 +58,8 @@ const CleanUp = () => {
   return (
     <>
       <Header />
-      <div className="container py-5">
+      <div className="container py-5 pt-0 mt-header">
+        <ToastContainer position="bottom-right" style={{ padding: 0 }} />
         {/* Loader */}
         {isLoading ? (
           <div

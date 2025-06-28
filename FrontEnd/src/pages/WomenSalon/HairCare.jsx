@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
+import "../../styles/AllServices.css";
 import Header from "@/components/Navbar";
 import { useCart } from "../context/CartContext";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import womenServiceLoader from "../../assets/women-loader.json";
@@ -46,10 +47,10 @@ const HairCare = () => {
   const handleCartToggle = (service) => {
     if (isInCart(service.title)) {
       removeFromCart(service.title);
-      toast.info("Removed from cart");
+      // toast.info("Removed from cart");
     } else {
       addToCart(service);
-      toast.success("Added to cart");
+      // toast.success("Added to cart");
     }
     closeModal();
   };
@@ -57,7 +58,8 @@ const HairCare = () => {
   return (
     <>
       <Header />
-      <div className="container py-5">
+      <div className="container py-5 pt-0 mt-header">
+        <ToastContainer position="bottom-right" style={{ padding: 0 }} />
         {loading && (
           <div className="text-center py-5 d-flex flex-column align-items-center justify-content-center">
             <div style={{ width: 200 }}>

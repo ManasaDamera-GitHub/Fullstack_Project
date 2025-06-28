@@ -56,22 +56,8 @@ const PaintingServices = () => {
   return (
     <>
       <Header />
-      <div className="container pt-0 pb-5">
+      <div className="container pt-0 pb-5 py-5 mt-header">
         <ToastContainer position="bottom-right" style={{ padding: 0 }} />
-
-        <div className="mb-4 d-flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <button
-              key={category}
-              className={`category-btn btn btn-sm ${
-                selectedCategory === category ? "active" : "btn-outline-primary"
-              }`}
-              onClick={() => setSelectedCategory(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
 
         {isLoading ? (
           <div
@@ -89,43 +75,68 @@ const PaintingServices = () => {
           </div>
         ) : (
           <div className="row">
-            {filteredServices.length > 0 ? (
-              filteredServices.map((service) => (
-                <div
-                  key={service._id || service.title}
-                  className="col-12 col-md-6 col-lg-4 mb-4"
-                  onClick={() => setSelectedService(service)}
-                  style={{ cursor: "pointer" }}
-                >
-                  <div className="card h-100 text-center shadow-sm">
-                    <img
-                      src={service.image}
-                      alt={service.title}
-                      className="card-img-top"
-                      style={{ height: "280px", objectFit: "cover" }}
-                    />
-                    <div className="card-body">
-                      <h5 className="card-title">{service.title}</h5>
-                      <p className="text-muted">
-                        {service.description?.slice(0, 60)}...
-                      </p>
-                      <p>
-                        <strong>₹{service.starts_at_price}</strong>
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))
-            ) : (
-              <div className="col-12">
-                <p className="text-muted text-center">
-                  No services found in this category.
-                </p>
+            {/* Sidebar */}
+            <div className="col-md-3 mb-4 category-sidebar">
+              <div className="d-flex flex-column gap-2">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    className={`category-btn btn btn-sm w-100 ${
+                      selectedCategory === category
+                        ? "btn-primary"
+                        : "btn-outline-primary"
+                    }`}
+                    onClick={() => setSelectedCategory(category)}
+                  >
+                    {category}
+                  </button>
+                ))}
               </div>
-            )}
+            </div>
+
+            {/* Services */}
+            <div className="col-md-9">
+              <div className="row">
+                {filteredServices.length > 0 ? (
+                  filteredServices.map((service) => (
+                    <div
+                      key={service._id || service.title}
+                      className="col-12 col-md-6 col-lg-4 mb-4"
+                      onClick={() => setSelectedService(service)}
+                      style={{ cursor: "pointer" }}
+                    >
+                      <div className="card h-100 text-center shadow-sm">
+                        <img
+                          src={service.image}
+                          alt={service.title}
+                          className="card-img-top"
+                          style={{ height: "280px", objectFit: "cover" }}
+                        />
+                        <div className="card-body">
+                          <h5 className="card-title">{service.title}</h5>
+                          <p className="text-muted">
+                            {service.description?.slice(0, 60)}...
+                          </p>
+                          <p>
+                            <strong>₹{service.starts_at_price}</strong>
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div className="col-12">
+                    <p className="text-muted text-center">
+                      No services found in this category.
+                    </p>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         )}
 
+        {/* Modal */}
         {selectedService && (
           <div
             className="modal d-block"

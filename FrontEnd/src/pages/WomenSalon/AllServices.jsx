@@ -4,7 +4,7 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "../../styles/AllServices.css";
 import Header from "@/components/Navbar";
 import { useCart } from "../context/CartContext";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
@@ -58,7 +58,8 @@ const AllServices = () => {
   return (
     <>
       <Header />
-      <div className="container py-5 mt-header">
+      <div className="container py-5 pt-0 mt-header">
+        <ToastContainer position="bottom-right" style={{ padding: 0 }} />
         {isLoading ? (
           <div
             className="d-flex flex-column justify-content-center align-items-center"

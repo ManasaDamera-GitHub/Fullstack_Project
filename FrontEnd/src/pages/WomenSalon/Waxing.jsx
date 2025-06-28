@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import Header from "@/components/Navbar";
+import "../../styles/AllServices.css";
 import { useCart } from "../context/CartContext";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import womenServiceLoader from "../../assets/women-loader.json";
@@ -47,10 +48,10 @@ const Waxing = () => {
     const isInCart = cartItems.some((item) => item.title === service.title);
     if (isInCart) {
       removeFromCart(service.title);
-      toast.success("Removed from cart");
+      // toast.success("Removed from cart");
     } else {
       addToCart(service);
-      toast.success("Added to cart");
+      // toast.success("Added to cart");
     }
     closeModal();
   };
@@ -58,7 +59,8 @@ const Waxing = () => {
   return (
     <>
       <Header />
-      <div className="container py-5">
+      <div className="container py-5 pt-0 mt-header">
+        <ToastContainer position="bottom-right" style={{ padding: 0 }} />
         {loading && (
           <div className="text-center py-5 d-flex flex-column align-items-center justify-content-center">
             <div style={{ width: 200 }}>
@@ -181,10 +183,10 @@ const Waxing = () => {
                           className="btn btn-success w-100"
                           onClick={() =>
                             navigate(
-                            `/professionals/${encodeURIComponent(
-                              selectedService.title
-                            )}/WomenSalonService/${selectedService._id}`
-                          )
+                              `/professionals/${encodeURIComponent(
+                                selectedService.title
+                              )}/WomenSalonService/${selectedService._id}`
+                            )
                           }
                         >
                           <i className="bi bi-calendar-check-fill me-2" />
