@@ -60,6 +60,7 @@ const AllWallPanel = () => {
   return (
     <>
       <Header />
+      {/* <SmartLock /> */}
       <div className="container pt-0 pb-5 mt-header ">
         <ToastContainer position="bottom-right" style={{ padding: 0 }} />
 

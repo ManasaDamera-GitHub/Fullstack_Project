@@ -4,23 +4,54 @@ import { HiOutlineLocationMarker } from "react-icons/hi";
 import { MdOutlineBookmarkAdded } from "react-icons/md";
 import { useBooking } from "../pages/context/BookingContext";
 import "../styles/Header.css";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("Select Location");
-  const [cartItems] = useState(0);
-  const { bookings } = useBooking(); // 👈 Access bookings
+  const cartItems = 0;
+
+  const { bookings } = useBooking();
+  const navigate = useNavigate();
 
   const handleSearch = (e) => {
     e.preventDefault();
-    console.log("Searching for:", searchQuery);
+
+    const input = (searchQuery || "").toLowerCase().trim();
+
+    const categoryRoutes = {
+      women: "/women-salon/all-services",
+      waxing: "/women-salon/waxing",
+      cleanup: "/women-salon/cleanup",
+      manicure: "/w_salon/manicure",
+      haircut: "/w_salon/haircare",
+      threading: "/w_salon/threading",
+      womenspa: "/women-salon/spa-services",
+      wall: "/wall-panels",
+      native: "/native",
+      electrician: "/electrician-services",
+      plumber: "/plumber-services",
+      waterpurifier: "/water-purifier-services",
+      ac: "/ac-appliances",
+      painting: "/painting-services",
+      carpenter: "/carpenter-services",
+    };
+
+    for (const category in categoryRoutes) {
+      if (input.includes(category)) {
+        navigate(categoryRoutes[category]);
+        return;
+      }
+    }
+    alert("Service not found");
+    console.log("No category match found. Search:", searchQuery);
   };
 
   return (
     <header className="site-header">
       <div className="header-container">
         <div className="logo">
-          <a href="/">
+          <a href="/home">
             <img src="/logo.png" alt="Company Logo" width={700} height={700} />
           </a>
         </div>
@@ -28,13 +59,16 @@ const Header = () => {
         <nav className="main-nav">
           <ul>
             <li>
+              <a href="/home">Home</a>
+            </li>
+            <li>
               <a href="/women-salon/all-services">Beauty</a>
             </li>
             <li>
-              <a href="/wall-panels">Wall Panels</a>
+              <a href="/wall">Wall Panels</a>
             </li>
             <li>
-              <a href="/native">Native</a>
+              <a href="/waterPurifier">Native</a>
             </li>
           </ul>
         </nav>
@@ -56,8 +90,8 @@ const Header = () => {
         <form className="search-bar" onSubmit={handleSearch}>
           <input
             type="text"
-            placeholder="Search products..."
-            aria-label="Search products"
+            placeholder="Search services..."
+            aria-label="Search services"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
           />
@@ -67,13 +101,11 @@ const Header = () => {
         </form>
 
         <div className="user-actions">
-          {/* Cart Icon */}
           <a href="/cart" className="cart-icon" aria-label="Cart">
             <FiShoppingCart className="cart-icon-img" />
             {cartItems > 0 && <span className="cart-count">{cartItems}</span>}
           </a>
 
-          {/* My Bookings Icon */}
           <a
             href="/my-bookings"
             className="booking-icon"
@@ -85,7 +117,6 @@ const Header = () => {
             )}
           </a>
 
-          {/* Logout */}
           <a href="/" className="login-icon" aria-label="Logout">
             <FiUser className="user-icon" />
             Logout

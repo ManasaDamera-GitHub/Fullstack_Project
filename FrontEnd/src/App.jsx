@@ -39,6 +39,8 @@ import Apartment_Terminate_control from "./pages/Home Repair/ApartmentTerminate"
 import ProfessionalsPage from "./pages/Professional/Professional";
 import BookingPage from "./pages/Booking/booking";
 import MyBookings from "./pages/MyBookings/MyBookings";
+import WallPanelCarousel from "./pages/WallPanel/WallCarousel";
+import BeautyCarousel from "./pages/WomenSalon/BeautyCarousel";
 
 export const App = () => {
   return (
@@ -99,6 +101,8 @@ export const App = () => {
             element={<BookingPage />}
           />
           <Route path="/my-bookings" element={<MyBookings />} />
+          <Route path="/wall" element={<WallPanelCarousel />} />
+          <Route path="/beauty" element={<BeautyCarousel />} />
         </Routes>
         <ToastContainer
           position="bottom-right"
