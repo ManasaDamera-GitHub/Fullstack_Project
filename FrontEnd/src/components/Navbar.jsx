@@ -27,9 +27,15 @@ const Header = () => {
 
         <nav className="main-nav">
           <ul>
-            <li><a href="/beauty">Beauty</a></li>
-            <li><a href="/wall-panels">Wall Panels</a></li>
-            <li><a href="/native">Native</a></li>
+            <li>
+              <a href="/women-salon/all-services">Beauty</a>
+            </li>
+            <li>
+              <a href="/wall-panels">Wall Panels</a>
+            </li>
+            <li>
+              <a href="/native">Native</a>
+            </li>
           </ul>
         </nav>
 
@@ -68,7 +74,11 @@ const Header = () => {
           </a>
 
           {/* My Bookings Icon */}
-          <a href="/my-bookings" className="booking-icon" aria-label="My Bookings">
+          <a
+            href="/my-bookings"
+            className="booking-icon"
+            aria-label="My Bookings"
+          >
             <MdOutlineBookmarkAdded className="user-icon" />
             {bookings.length > 0 && (
               <span className="cart-count">{bookings.length}</span>
