@@ -147,3 +147,76 @@
     font-size: 1.1rem; /* Smaller heading on mobile */
   }
 }
+.mt-header {
+  margin-top: 80px; /* adjust this based on your navbar height */
+}
+
+/* Category Buttons Styling */
+.category-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.category-btn {
+  border-radius: 20px;
+  padding: 8px 16px;
+  transition: all 0.3s ease-in-out;
+  font-weight: 500;
+  text-align: left;
+}
+
+.category-btn:hover {
+  background-color: #0d6efd;
+  color: #fff;
+}
+
+.category-btn.active {
+  background-color: #0d6efd !important;
+  color: #fff !important;
+}
+/* Margin to avoid header overlap */
+.mt-header {
+  margin-top: 90px;
+}
+
+/* Sidebar container - sticky + scrollable */
+.category-sidebar {
+  position: sticky;
+  top: 100px;
+  max-height: 80vh; /* Adjust as needed */
+  overflow-y: auto;
+  padding-right: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+/* Style for custom scrollbar (optional) */
+.category-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.category-sidebar::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
+}
+
+/* Button styling */
+.category-btn {
+  border-radius: 20px;
+  padding: 8px 16px;
+  font-weight: 500;
+  text-align: left;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.category-btn:hover {
+  background-color: #0d6efd;
+  color: white;
+}
+
+.category-btn.active {
+  background-color: #0d6efd !important;
+  color: white !important;
+}

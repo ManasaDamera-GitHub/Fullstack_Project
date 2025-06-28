@@ -17,6 +17,7 @@ const AllServices = () => {
   const { addToCart, removeFromCart, cartItems } = useCart();
   const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
+
   useEffect(() => {
     const fetchALL = async () => {
       try {
@@ -57,23 +58,7 @@ const AllServices = () => {
   return (
     <>
       <Header />
-      <div className="container py-5">
-        {/* Categories */}
-        <div className="mb-4 d-flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <button
-              key={category}
-              className={`category-btn btn btn-sm ${
-                selectedCategory === category ? "active" : "btn-outline-primary"
-              }`}
-              onClick={() => setSelectedCategory(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* Service Cards */}
+      <div className="container py-5 mt-header">
         {isLoading ? (
           <div
             className="d-flex flex-column justify-content-center align-items-center"
@@ -90,45 +75,70 @@ const AllServices = () => {
           </div>
         ) : (
           <div className="row">
-            {filteredServices.map((service) => (
-              <div
-                key={service.id}
-                className="col-12 col-md-6 col-lg-4 mb-4"
-                onClick={() => setSelectedService(service)}
-                style={{ cursor: "pointer" }}
-              >
-                <div className="card h-100 text-center shadow-sm">
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="card-img-top"
-                    style={{ height: "280px", objectFit: "cover" }}
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title">{service.title}</h5>
-                    <p className="text-muted">
-                      {service.description.slice(0, 60)}...
-                    </p>
-                    <p>
-                      <strong>₹{service.starts_at_price}</strong>
-                    </p>
-                    <span className="text-dark fw-semibold">
-                      {service.view_details}
-                    </span>
-                  </div>
-                </div>
+            {/* Sticky Category Sidebar */}
+            <div className="col-md-3 mb-4">
+              <div className="category-sidebar">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    className={`category-btn btn btn-sm ${
+                      selectedCategory === category
+                        ? "active"
+                        : "btn-outline-primary"
+                    }`}
+                    onClick={() => setSelectedCategory(category)}
+                  >
+                    {category}
+                  </button>
+                ))}
               </div>
-            ))}
+            </div>
 
-            {filteredServices.length === 0 && (
-              <div className="col-12">
-                <p className="text-muted text-center">
-                  No services found in this category.
-                </p>
+            {/* Services */}
+            <div className="col-md-9">
+              <div className="row">
+                {filteredServices.map((service) => (
+                  <div
+                    key={service.id}
+                    className="col-12 col-sm-6 col-lg-4 mb-4"
+                    onClick={() => setSelectedService(service)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <div className="card h-100 text-center shadow-sm">
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="card-img-top"
+                        style={{ height: "280px", objectFit: "cover" }}
+                      />
+                      <div className="card-body">
+                        <h5 className="card-title">{service.title}</h5>
+                        <p className="text-muted">
+                          {service.description.slice(0, 60)}...
+                        </p>
+                        <p>
+                          <strong>₹{service.starts_at_price}</strong>
+                        </p>
+                        <span className="text-dark fw-semibold">
+                          {service.view_details}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {filteredServices.length === 0 && (
+                  <div className="col-12">
+                    <p className="text-muted text-center">
+                      No services found in this category.
+                    </p>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         )}
+
         {/* Modal */}
         {selectedService && (
           <div
@@ -191,7 +201,7 @@ const AllServices = () => {
                         : "Add to Cart"}
                     </button>
                     <button
-                      className="btn btn-success mt-2 w-100 modal-button-text"
+                      className="btn btn-success mt-2 w-100"
                       onClick={() =>
                         navigate(
                           `/professionals/${encodeURIComponent(
