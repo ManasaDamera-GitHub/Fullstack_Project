@@ -44,10 +44,8 @@ const AllMenServices = () => {
   const handleCartAction = (service) => {
     if (isInCart(service.title)) {
       removeFromCart(service.title);
-      // toast.info("Removed from cart");
     } else {
       addToCart(service);
-      // toast.success("Added to cart");
     }
     setSelectedService(null);
   };
@@ -57,23 +55,7 @@ const AllMenServices = () => {
   return (
     <>
       <Header />
-      <div className="container py-5">
-        {/* Category Filter Buttons */}
-        <div className="mb-4 d-flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <button
-              key={category}
-              className={`category-btn btn btn-sm ${
-                selectedCategory === category ? "active" : "btn-outline-primary"
-              }`}
-              onClick={() => setSelectedCategory(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* Filtered Service Cards */}
+      <div className="container py-5 mt-header">
         {isLoading ? (
           <div
             className="d-flex flex-column justify-content-center align-items-center"
@@ -90,47 +72,67 @@ const AllMenServices = () => {
           </div>
         ) : (
           <div className="row">
-            {filteredServices.map((service) => (
-              <div
-                key={service.id}
-                className="col-12 col-md-6 col-lg-4 mb-4"
-                onClick={() => setSelectedService(service)}
-                style={{ cursor: "pointer" }}
-              >
-                <div className="card h-100 text-center shadow-sm">
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="card-img-top"
-                    style={{
-                      height: "280px",
-                      width: "100%",
-                      objectFit: "cover",
-                    }}
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title">{service.title}</h5>
-                    <p className="text-muted">
-                      {service.description.slice(0, 60)}...
-                    </p>
-                    <p>
-                      <strong>₹{service.starts_at_price}</strong>
-                    </p>
-                    <span className="text-dark fw-semibold">
-                      {service.view_details}
-                    </span>
-                  </div>
-                </div>
+            {/* Sticky Category Sidebar */}
+            <div className="col-md-3 mb-4">
+              <div className="category-sidebar">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    className={`category-btn btn btn-sm ${
+                      selectedCategory === category
+                        ? "active"
+                        : "btn-outline-primary"
+                    }`}
+                    onClick={() => setSelectedCategory(category)}
+                  >
+                    {category}
+                  </button>
+                ))}
               </div>
-            ))}
+            </div>
 
-            {filteredServices.length === 0 && (
-              <div className="col-12">
-                <p className="text-muted text-center">
-                  No services found in this category.
-                </p>
+            {/* Services */}
+            <div className="col-md-9">
+              <div className="row">
+                {filteredServices.map((service) => (
+                  <div
+                    key={service.id}
+                    className="col-12 col-sm-6 col-lg-4 mb-4"
+                    onClick={() => setSelectedService(service)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <div className="card h-100 text-center shadow-sm">
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="card-img-top"
+                        style={{ height: "280px", objectFit: "cover" }}
+                      />
+                      <div className="card-body">
+                        <h5 className="card-title">{service.title}</h5>
+                        <p className="text-muted">
+                          {service.description.slice(0, 60)}...
+                        </p>
+                        <p>
+                          <strong>₹{service.starts_at_price}</strong>
+                        </p>
+                        <span className="text-dark fw-semibold">
+                          {service.view_details}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {filteredServices.length === 0 && (
+                  <div className="col-12">
+                    <p className="text-muted text-center">
+                      No services found in this category.
+                    </p>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         )}
 
@@ -172,15 +174,13 @@ const AllMenServices = () => {
                     <p className="mb-2">{selectedService.description}</p>
                     <p className="mb-2">
                       <i className="bi bi-star-fill text-warning"></i>{" "}
-                      {selectedService.rating} ({selectedService.views_count}{" "}
-                      reviews)
+                      {selectedService.rating} ({selectedService.views_count} reviews)
                     </p>
                     <p className="mb-2 fw-semibold">
                       {selectedService.view_details}
                     </p>
                     <div className="mt-2 px-3 py-2 rounded bg-warning bg-opacity-25 d-inline-block">
-                      🔖 Starting at{" "}
-                      <strong>₹{selectedService.starts_at_price}</strong>
+                      🔖 Starting at <strong>₹{selectedService.starts_at_price}</strong>
                     </div>
                     <div>
                       <button

@@ -4,8 +4,6 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import "../../styles/AllServices.css";
 import Header from "@/components/Navbar";
 import { useCart } from "../context/CartContext";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
 import Lottie from "lottie-react";
 import serviceLoader from "../../assets/service-loader.json";
@@ -14,23 +12,23 @@ const ACAppliances = () => {
   const [selectedService, setSelectedService] = useState(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [services, setServices] = useState([]);
-  const { addToCart, removeFromCart, cartItems } = useCart();
   const [isLoading, setIsLoading] = useState(true);
+  const { addToCart, removeFromCart, cartItems } = useCart();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchALL = async () => {
+    const fetchServices = async () => {
       try {
         const response = await fetch("https://hearth-hand.onrender.com/ac/ac");
         const data = await response.json();
         setServices(data);
       } catch (error) {
-        console.log(error);
+        console.error("Error fetching AC services:", error);
       } finally {
         setIsLoading(false);
       }
     };
-    fetchALL();
+    fetchServices();
   }, []);
 
   const categories = ["All", ...new Set(services.map((s) => s.category))];
@@ -54,23 +52,7 @@ const ACAppliances = () => {
   return (
     <>
       <Header />
-      <div className="container py-5">
-        {/* Categories */}
-        <div className="mb-4 d-flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <button
-              key={category}
-              className={`category-btn btn btn-sm ${
-                selectedCategory === category ? "active" : "btn-outline-primary"
-              }`}
-              onClick={() => setSelectedCategory(category)}
-            >
-              {category}
-            </button>
-          ))}
-        </div>
-
-        {/* Service Cards */}
+      <div className="container py-5 mt-header">
         {isLoading ? (
           <div
             className="d-flex flex-column justify-content-center align-items-center"
@@ -87,47 +69,71 @@ const ACAppliances = () => {
           </div>
         ) : (
           <div className="row">
-            {filteredServices.map((service) => (
-              <div
-                key={service.id}
-                className="col-12 col-md-6 col-lg-4 mb-4"
-                onClick={() => setSelectedService(service)}
-                style={{ cursor: "pointer" }}
-              >
-                <div className="card h-100 text-center shadow-sm">
-                  <img
-                    src={service.image}
-                    alt={service.title}
-                    className="card-img-top"
-                    style={{ height: "280px", objectFit: "cover" }}
-                  />
-                  <div className="card-body">
-                    <h5 className="card-title">{service.title}</h5>
-                    <p className="text-muted">
-                      {service.description.slice(0, 60)}...
-                    </p>
-                    <p>
-                      <strong>₹{service.starts_at_price}</strong>
-                    </p>
-                    <span className="text-dark fw-semibold">
-                      {service.view_details}
-                    </span>
-                  </div>
-                </div>
+            {/* Category Sidebar */}
+            <div className="col-md-3 mb-4">
+              <div className="category-sidebar">
+                {categories.map((category) => (
+                  <button
+                    key={category}
+                    className={`category-btn btn btn-sm w-100 text-start mb-2 ${
+                      selectedCategory === category
+                        ? "btn-primary"
+                        : "btn-outline-primary"
+                    }`}
+                    onClick={() => setSelectedCategory(category)}
+                  >
+                    {category}
+                  </button>
+                ))}
               </div>
-            ))}
+            </div>
 
-            {filteredServices.length === 0 && (
-              <div className="col-12">
-                <p className="text-muted text-center">
-                  No services found in this category.
-                </p>
+            {/* Services Grid */}
+            <div className="col-md-9">
+              <div className="row">
+                {filteredServices.map((service) => (
+                  <div
+                    key={service.id}
+                    className="col-12 col-sm-6 col-lg-4 mb-4"
+                    onClick={() => setSelectedService(service)}
+                    style={{ cursor: "pointer" }}
+                  >
+                    <div className="card h-100 text-center shadow-sm">
+                      <img
+                        src={service.image}
+                        alt={service.title}
+                        className="card-img-top"
+                        style={{ height: "280px", objectFit: "cover" }}
+                      />
+                      <div className="card-body">
+                        <h5 className="card-title">{service.title}</h5>
+                        <p className="text-muted">
+                          {service.description.slice(0, 60)}...
+                        </p>
+                        <p>
+                          <strong>₹{service.starts_at_price}</strong>
+                        </p>
+                        <span className="text-dark fw-semibold">
+                          {service.view_details}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+
+                {filteredServices.length === 0 && (
+                  <div className="col-12">
+                    <p className="text-muted text-center">
+                      No services found in this category.
+                    </p>
+                  </div>
+                )}
               </div>
-            )}
+            </div>
           </div>
         )}
 
-        {/* Modal */}
+        {/* Modal for Service Details */}
         {selectedService && (
           <div
             className="modal d-block"
@@ -142,37 +148,29 @@ const ACAppliances = () => {
               overflowY: "auto",
             }}
           >
-            {console.log("Selected service:", selectedService)}
             <div className="modal-dialog modal-dialog-centered modal-lg">
               <div className="modal-content">
                 <div className="modal-header">
-                  <h5 className="modal-title modal-title-text">
-                    {selectedService.title}
-                  </h5>
+                  <h5 className="modal-title">{selectedService.title}</h5>
                   <button
                     className="btn-close"
                     onClick={() => setSelectedService(null)}
                   ></button>
                 </div>
-
-                <div className="modal-body d-flex flex-wrap">
-                  <div className="d-flex flex-column align-items-center col-md-5 mb-3">
+                <div className="modal-body row">
+                  <div className="col-md-5 text-center mb-3">
                     <img
                       src={selectedService.image}
-                      className="img-fluid rounded mb-3"
+                      className="img-fluid rounded"
                       alt={selectedService.title}
-                      style={{
-                        maxHeight: "300px",
-                        objectFit: "cover",
-                        width: "100%",
-                      }}
+                      style={{ maxHeight: "300px", objectFit: "cover" }}
                     />
-                    <div className="bg-warning bg-opacity-25 px-3 py-2 rounded w-100 text-center mb-2 modal-price-text">
+                    <div className="bg-warning bg-opacity-25 px-3 py-2 rounded mt-3">
                       Starting at{" "}
                       <strong>₹{selectedService.starts_at_price}</strong>
                     </div>
                     <button
-                      className="btn btn-primary w-100 modal-button-text"
+                      className="btn btn-primary w-100 mt-3"
                       onClick={() => handleCartAction(selectedService)}
                     >
                       <i
@@ -187,7 +185,7 @@ const ACAppliances = () => {
                         : "Add to Cart"}
                     </button>
                     <button
-                      className="btn btn-success mt-2 w-100 modal-button-text"
+                      className="btn btn-success w-100 mt-2"
                       onClick={() =>
                         navigate(
                           `/professionals/${encodeURIComponent(
@@ -200,38 +198,26 @@ const ACAppliances = () => {
                       Book Now
                     </button>
                   </div>
-
-                  <div className="col-md-7 ps-md-4">
-                    <p className="modal-description-text">
-                      {selectedService.description}
+                  <div className="col-md-7">
+                    <p>{selectedService.description}</p>
+                    <p>
+                      <i className="bi bi-star-fill text-warning"></i>{" "}
+                      {selectedService.rating} ({selectedService.views_count}{" "}
+                      reviews)
                     </p>
-                    <p className="modal-rating-text">
-                      <b>
-                        <i className="bi bi-star-fill text-warning"></i>{" "}
-                        {selectedService.rating} ({selectedService.views_count}{" "}
-                        reviews)
-                      </b>
+                    <p className="fw-semibold">
+                      {selectedService.view_details}
                     </p>
-                    <p className="modal-details-text fw-semibold">
-                      {selectedService.view_details || "View Details"}
-                    </p>
-
                     <div>
-                      <h5 className="modal-process-title fw-semibold">
-                        Our Process
-                      </h5>
-                      {selectedService.process &&
-                      Array.isArray(selectedService.process) &&
-                      selectedService.process.length > 0 ? (
-                        <ul className="ps-3 modal-process-list">
-                          {selectedService.process.map((step, index) => (
-                            <li key={index} className="modal-process-item">
-                              {step}
-                            </li>
+                      <h5 className="fw-semibold">Our Process</h5>
+                      {selectedService.process?.length > 0 ? (
+                        <ul className="ps-3">
+                          {selectedService.process.map((step, idx) => (
+                            <li key={idx}>{step}</li>
                           ))}
                         </ul>
                       ) : (
-                        <p className="modal-no-process-text text-muted">
+                        <p className="text-muted">
                           Process information not available.
                         </p>
                       )}
