@@ -48,7 +48,7 @@ app.use("/", BookingRouter);
 app.use("/reviews", ReviewRoutes);
 app.use("/signup", UserRoutes);
 app.use("/", UserRoutes);
-
+app.use("/", BookingRouter);
 mongoose
   .connect(process.env.ATLAS_URI)
   .then(() => {

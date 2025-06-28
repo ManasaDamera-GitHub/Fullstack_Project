@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/BookingPage.css";
 import axios from "axios";
@@ -62,8 +62,31 @@ const BookingPage = () => {
       );
 
       if (res.status === 201) {
-        toast.success(`Booking confirmed via ${paymentType}!`);
-        navigate("/my-bookings");
+        toast.success(
+          <div>
+            Booking confirmed via <strong>{paymentType}</strong>!
+            <br />
+            <button
+              onClick={() => navigate("/my-bookings")}
+              className="btn btn-sm btn-success mt-2"
+            >
+              View My Bookings
+            </button>
+          </div>,
+          {
+            autoClose: 5000,
+            closeOnClick: false,
+            pauseOnHover: true,
+          }
+        );
+
+        // Optional: clear form after booking
+        setFormData({
+          date: "",
+          time: "",
+          address: "",
+          paymentType: "",
+        });
       } else {
         toast.error("Booking failed. Try again.");
       }
@@ -73,63 +96,66 @@ const BookingPage = () => {
   };
 
   return (
-    <div className="container mt-5">
-      <h2 className="text-center mb-4">Book {serviceTitle}</h2>
-      <form className="booking-form" onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Select Date</label>
-          <input
-            type="date"
-            name="date"
-            className="form-control"
-            value={formData.date}
-            onChange={handleChange}
-            min={new Date().toISOString().split("T")[0]}
-          />
-        </div>
+    <>
+      <div className="container mt-5">
+        <h2 className="text-center mb-4">Book {serviceTitle}</h2>
+        <form className="booking-form" onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Select Date</label>
+            <input
+              type="date"
+              name="date"
+              className="form-control"
+              value={formData.date}
+              onChange={handleChange}
+              min={new Date().toISOString().split("T")[0]}
+            />
+          </div>
 
-        <div className="mb-3">
-          <label className="form-label">Select Time</label>
-          <input
-            type="time"
-            name="time"
-            className="form-control"
-            value={formData.time}
-            onChange={handleChange}
-          />
-        </div>
+          <div className="mb-3">
+            <label className="form-label">Select Time</label>
+            <input
+              type="time"
+              name="time"
+              className="form-control"
+              value={formData.time}
+              onChange={handleChange}
+            />
+          </div>
 
-        <div className="mb-3">
-          <label className="form-label">Service Address</label>
-          <textarea
-            name="address"
-            className="form-control"
-            placeholder="Enter your full address"
-            rows="3"
-            value={formData.address}
-            onChange={handleChange}
-          ></textarea>
-        </div>
+          <div className="mb-3">
+            <label className="form-label">Service Address</label>
+            <textarea
+              name="address"
+              className="form-control"
+              placeholder="Enter your full address"
+              rows="3"
+              value={formData.address}
+              onChange={handleChange}
+            ></textarea>
+          </div>
 
-        <div className="mb-4">
-          <label className="form-label">Payment Type</label>
-          <select
-            name="paymentType"
-            className="form-select"
-            value={formData.paymentType}
-            onChange={handleChange}
-          >
-            <option value="">Select Payment Method</option>
-            <option value="Online">Online</option>
-            <option value="Cash on Delivery">Cash on Delivery</option>
-          </select>
-        </div>
+          <div className="mb-4">
+            <label className="form-label">Payment Type</label>
+            <select
+              name="paymentType"
+              className="form-select"
+              value={formData.paymentType}
+              onChange={handleChange}
+            >
+              <option value="">Select Payment Method</option>
+              <option value="Online">Online</option>
+              <option value="Cash on Delivery">Cash on Delivery</option>
+            </select>
+          </div>
 
-        <button type="submit" className="btn btn-primary w-100">
-          Confirm Booking
-        </button>
-      </form>
-    </div>
+          <button type="submit" className="btn btn-primary w-100">
+            Confirm Booking
+          </button>
+        </form>
+      </div>
+      <ToastContainer position="bottom-right" autoClose={3000} />
+    </>
   );
 };
 

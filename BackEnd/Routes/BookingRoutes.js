@@ -110,4 +110,26 @@ router.post("/servicebooking", async (req, res) => {
   }
 });
 
+router.get("/bookings/:userId", async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const bookings = await Booking.find({ userId }).sort({ date: -1 });
+    res.status(200).json(bookings);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch bookings" });
+  }
+});
+
+router.delete("/bookings/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deletedBooking = await Booking.findByIdAndDelete(id);
+    if (!deletedBooking) {
+      return res.status(404).json({ message: "Booking not found" });
+    }
+    res.status(200).json({ message: "Booking cancelled successfully" });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to cancel booking" });
+  }
+});
 module.exports = router;

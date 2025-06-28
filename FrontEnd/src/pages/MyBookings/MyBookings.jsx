@@ -3,23 +3,36 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useBooking } from "../context/BookingContext";
 
-const MyBookings = ({ userId }) => {
-  const [bookings, setBookings] = useState([]);
+const MyBookings = () => {
   const [loading, setLoading] = useState(true);
+  const [bookings, setBookings] = useState([]);
   const { addBooking } = useBooking();
 
+  const userId = localStorage.getItem("userId");
+  const handleCancel = async (bookingId) => {
+    if (!window.confirm("Are you sure you want to cancel this booking?"))
+      return;
+    try {
+      const res = await axios.delete(
+        `http://localhost:3000/bookings/${bookingId}`
+      );
+      if (res.status === 200) {
+        toast.success("Booking cancelled");
+        setBookings((pre) => pre.filter((b) => b._id !== bookingId));
+      } else {
+        toast.error("Failed to cancel booking");
+      }
+    } catch (error) {
+      toast.error("Error cancelling booking. Please try again");
+    }
+  };
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const res = await axios.get(`/bookings/${userId}`);
+        const res = await axios.get(`http://localhost:3000/bookings/${userId}`);
         const fetchedBookings = res.data;
-
         setBookings(fetchedBookings);
-
-        // Add each booking to context only if not already present
-        fetchedBookings.forEach((booking) => {
-          addBooking(booking); // You can modify this if duplicates are a concern
-        });
+        fetchedBookings.forEach((b) => addBooking(b));
       } catch (err) {
         toast.error("Failed to load your bookings");
       } finally {
@@ -27,40 +40,40 @@ const MyBookings = ({ userId }) => {
       }
     };
 
-    if (userId) {
-      fetchBookings();
-    }
+    if (userId) fetchBookings();
   }, [userId, addBooking]);
 
   return (
     <div className="container mt-5">
       <h2 className="mb-4 text-center">My Bookings</h2>
-
       {loading ? (
         <p className="text-center">Loading bookings...</p>
       ) : bookings.length === 0 ? (
         <p className="text-center">No bookings found.</p>
       ) : (
         <div className="row">
-          {bookings.map((booking) => (
-            <div className="col-md-6 col-lg-4 mb-4" key={booking._id}>
+          {bookings.map((b) => (
+            <div className="col-md-6 col-lg-4 mb-4" key={b._id}>
               <div className="p-4 border rounded shadow-sm bg-light">
-                <h5 className="text-primary">{booking.serviceTitle}</h5>
-                <p className="mb-1">
-                  <strong>Professional:</strong> {booking.professionalName}
+                <h5 className="text-primary">{b.serviceTitle}</h5>
+                <p>
+                  <strong>Date:</strong> {b.date}
                 </p>
-                <p className="mb-1">
-                  <strong>Date:</strong> {booking.date}
+                <p>
+                  <strong>Time:</strong> {b.time}
                 </p>
-                <p className="mb-1">
-                  <strong>Time:</strong> {booking.time}
+                <p>
+                  <strong>Address:</strong> {b.address}
                 </p>
-                <p className="mb-1">
-                  <strong>Address:</strong> {booking.address}
+                <p>
+                  <strong>Payment:</strong> {b.paymentType}
                 </p>
-                <p className="mb-0">
-                  <strong>Payment:</strong> {booking.paymentType}
-                </p>
+                <button
+                  className="btn btn-danger btn-sm mt-2 w-100"
+                  onClick={() => handleCancel(b._id)}
+                >
+                  Cancel Booking
+                </button>
               </div>
             </div>
           ))}
