@@ -44,10 +44,10 @@ const AllServices = () => {
     const isInCart = cartItems.some((item) => item.title === service.title);
     if (isInCart) {
       removeFromCart(service.title);
-      // toast.info("Removed from cart");
+      toast.info("Removed from cart");
     } else {
       addToCart(service);
-      // toast.success("Added to cart");
+      toast.success("Added to cart");
     }
     setSelectedService(null);
   };

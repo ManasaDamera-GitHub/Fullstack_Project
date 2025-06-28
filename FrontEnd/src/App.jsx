@@ -44,11 +44,6 @@ import MyBookings from "./pages/MyBookings/MyBookings";
 export const App = () => {
   return (
     <CartProvider>
-      <ToastContainer
-        position="bottom-right"
-        autoClose={3000}
-        style={{ padding: 0 }}
-      />
       <Router>
         <Routes>
           <Route path="/" element={<Login />} />
@@ -106,6 +101,11 @@ export const App = () => {
           />
           <Route path="/my-bookings" element={<MyBookings />} />
         </Routes>
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          style={{ padding: 0 }}
+        />
       </Router>
     </CartProvider>
   );

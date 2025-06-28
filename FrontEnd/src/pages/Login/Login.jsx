@@ -39,7 +39,7 @@ const Login = () => {
       // ✅ Save token and user info to localStorage
       const { token, user, message } = res.data;
       localStorage.setItem("token", token);
-      localStorage.setItem("userId", user._id);
+      localStorage.setItem("userId", user.id);
       localStorage.setItem("userName", user.name);
 
       toast.success(message || "Logged in successfully");
