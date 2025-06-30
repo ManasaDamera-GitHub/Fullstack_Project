@@ -1,12 +1,14 @@
 import React from "react";
-import "../../styles/FifthPart.css"; // Import the CSS file
+import "../../styles/FifthPart.css";
 import { useNavigate } from "react-router-dom";
 
 export const FifthPart = () => {
   const navigate = useNavigate();
+
   const handleClick = () => {
     navigate("/wall-panels");
   };
+
   return (
     <div className="fifth-part-container" onClick={handleClick}>
       <div className="content-wrapper">
