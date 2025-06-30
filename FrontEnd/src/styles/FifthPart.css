@@ -3,7 +3,7 @@
   padding: 0;
   box-sizing: border-box;
 }
-.fifth-part-container {
+.fifth-part-container,.lock-part-container {
     padding: 2rem;
     margin: auto;
     cursor: pointer;
@@ -12,14 +12,14 @@
     background-color: #eeeaea;
   }
   
-  .lock-part-container {
+  /* .lock-part-container {
     max-width: 1200px;
     padding: 2rem;
     margin: auto;
     cursor: pointer;
     background-color: #583c21;
     margin-top:2rem ;
-  }
+  } */
   .content-wrapper:hover,.know-more-btn:hover,.lock-wrapper:hover {
     transform: scale(1.02);
     
@@ -35,10 +35,10 @@
   
   .lock-wrapper{
     transition: transform 0.3s ease;
-    background-color:  #583c21;
+    /* background-color:  #583c21; */
   }
   
-  .wall-image {
+  .wall-image ,.lock-image{
     width: 50%;
     height: 500px;
     object-fit: cover;
@@ -49,7 +49,7 @@
   
   .lock-image {
     transition: transform 0.3s ease;
-    width: 50%;
+    width: 100%;
     height: auto;
     object-fit: top;
     border-radius: 8px;
@@ -111,6 +111,77 @@
   .wall-image {
     width: 100%;
     max-width: 90vw;
+  }
+
+  .text-content h1 {
+    font-size: 1.5rem;
+  }
+
+  .text-content p {
+    font-size: 1rem;
+  }
+}
+.fifth-part-container {
+  width: 100%;
+  background-color: #f5f5f5;
+  padding: 2rem 1rem;
+  cursor: pointer;
+}
+
+.content-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap; 
+}
+
+.wall-image {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  flex: 1 1 300px;
+}
+
+.text-content {
+  flex: 1 1 300px;
+  text-align: left;
+}
+
+.text-content h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: #222;
+}
+
+.text-content p {
+  font-size: 1.1rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.know-more-btn {
+  background-color: #111827;
+  color: white;
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.know-more-btn:hover {
+  background-color: #374151;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .content-wrapper {
+    flex-direction: column;
+    text-align: center;
   }
 
   .text-content h1 {
