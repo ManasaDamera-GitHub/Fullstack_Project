@@ -22,7 +22,7 @@ const WaterPurifierServices = () => {
     const fetchALL = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/waterPurifier/waterPurifier"
+          "https://hearth-hand.onrender.com/waterPurifier/waterPurifier"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch services");

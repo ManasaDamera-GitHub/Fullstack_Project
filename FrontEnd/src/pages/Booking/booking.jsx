@@ -57,7 +57,7 @@ const BookingPage = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/servicebooking",
+        "https://hearth-hand.onrender.com/servicebooking",
         bookingData
       );
 

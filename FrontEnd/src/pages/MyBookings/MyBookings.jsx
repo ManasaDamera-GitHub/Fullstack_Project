@@ -15,7 +15,7 @@ const MyBookings = () => {
       return;
     try {
       const res = await axios.delete(
-        `http://localhost:3000/bookings/${bookingId}`
+        `https://hearth-hand.onrender.com/bookings/${bookingId}`
       );
       if (res.status === 200) {
         toast.success("Booking cancelled");
@@ -30,7 +30,7 @@ const MyBookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const res = await axios.get(`http://localhost:3000/bookings/${userId}`);
+        const res = await axios.get(`https://hearth-hand.onrender.com/bookings/${userId}`);
         const fetchedBookings = res.data;
         setBookings(fetchedBookings);
         fetchedBookings.forEach((b) => addBooking(b));
