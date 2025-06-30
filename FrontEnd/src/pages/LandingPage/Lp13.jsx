@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "../../components/ui/card";
 import "../../styles/MBS.css";
+import "../../styles/WomenSalon.css";
 
 const appliances = [
   {
@@ -88,11 +89,11 @@ export default function MBS() {
 
   return (
     <div className="MSB-container">
-      <div className="MSB-header">
-        <h2 className="MSB-title">Most Booked Services</h2>
+      <div className="MSB-header women-salon-header">
+        <h2 className="MSB-title women-salon-title">Most Booked Services</h2>
         <button
           onClick={() => navigate("/most-booked-services")}
-          className="see-all-btn "
+          className="see-all-btn women-salon-button"
         >
           See all
         </button>

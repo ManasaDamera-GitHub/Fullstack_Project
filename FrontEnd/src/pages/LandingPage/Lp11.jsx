@@ -2,6 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "../../components/ui/card";
 import "../../styles/MBS.css";
+import "../../styles/WomenSalon.css";
 
 const appliances = [
   { img: "/repair/cooler.png", title: "Air Cooler", path: "/ac" },
@@ -61,10 +62,15 @@ export default function Repair() {
 
   return (
     <div className="MBS-container bg-white">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="MBS-header">
-          <h2 className="MBS-title">Appliance repair & service</h2>
-          <button className="see-all-btn" onClick={() => navigate("/ac")}>
+      <div className="max-w-7xl mx-auto px-4 ">
+        <div className="MBS-header women-salon-header">
+          <h2 className="MBS-title women-salon-title">
+            Appliance repair & service
+          </h2>
+          <button
+            className="see-all-btn women-salon-button"
+            onClick={() => navigate("/ac")}
+          >
             See all
           </button>
         </div>
