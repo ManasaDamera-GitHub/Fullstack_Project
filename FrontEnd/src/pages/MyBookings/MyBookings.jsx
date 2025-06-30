@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useBooking } from "../context/BookingContext";
+import Header from "@/components/Navbar";
 
 const MyBookings = () => {
   const [loading, setLoading] = useState(true);
@@ -44,42 +45,46 @@ const MyBookings = () => {
   }, [userId, addBooking]);
 
   return (
-    <div className="container mt-5">
-      <h2 className="mb-4 text-center">My Bookings</h2>
-      {loading ? (
-        <p className="text-center">Loading bookings...</p>
-      ) : bookings.length === 0 ? (
-        <p className="text-center">No bookings found.</p>
-      ) : (
-        <div className="row">
-          {bookings.map((b) => (
-            <div className="col-md-6 col-lg-4 mb-4" key={b._id}>
-              <div className="p-4 border rounded shadow-sm bg-light">
-                <h5 className="text-primary">{b.serviceTitle}</h5>
-                <p>
-                  <strong>Date:</strong> {b.date}
-                </p>
-                <p>
-                  <strong>Time:</strong> {b.time}
-                </p>
-                <p>
-                  <strong>Address:</strong> {b.address}
-                </p>
-                <p>
-                  <strong>Payment:</strong> {b.paymentType}
-                </p>
-                <button
-                  className="btn btn-danger btn-sm mt-2 w-100"
-                  onClick={() => handleCancel(b._id)}
-                >
-                  Cancel Booking
-                </button>
+    <>
+      <Header />
+      <div className="space" style={{ marginTop: "8rem" }}></div>
+      <div className="container mt-5">
+        <h2 className="mb-4 text-center">My Bookings</h2>
+        {loading ? (
+          <p className="text-center">Loading bookings...</p>
+        ) : bookings.length === 0 ? (
+          <p className="text-center">No bookings found.</p>
+        ) : (
+          <div className="row">
+            {bookings.map((b) => (
+              <div className="col-md-6 col-lg-4 mb-4" key={b._id}>
+                <div className="p-4 border rounded shadow-sm bg-light">
+                  <h5 className="text-primary">{b.serviceTitle}</h5>
+                  <p>
+                    <strong>Date:</strong> {b.date}
+                  </p>
+                  <p>
+                    <strong>Time:</strong> {b.time}
+                  </p>
+                  <p>
+                    <strong>Address:</strong> {b.address}
+                  </p>
+                  <p>
+                    <strong>Payment:</strong> {b.paymentType}
+                  </p>
+                  <button
+                    className="btn btn-danger btn-sm mt-2 w-100"
+                    onClick={() => handleCancel(b._id)}
+                  >
+                    Cancel Booking
+                  </button>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-      )}
-    </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </>
   );
 };
 
