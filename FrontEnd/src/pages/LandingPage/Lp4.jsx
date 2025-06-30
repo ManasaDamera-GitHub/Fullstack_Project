@@ -22,7 +22,7 @@ const content = [
   },
   { img: "/New/lock.png", text: "Native smart locks", path: "/smart-locks" },
   { img: "/New/AC.png", text: "AC", path: "/ac" },
-  { img: "/New/doctor.png", text: "Check Out Salon", path: "/" },
+  // { img: "/New/doctor.png", text: "Check Out Salon", path: "/" },
 ];
 
 export default function FourthPart() {

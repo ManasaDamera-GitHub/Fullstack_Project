@@ -1,15 +1,14 @@
-import * as React from "react";
+import React, { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Card, CardContent } from "../../components/ui/card";
 import "../../styles/MBS.css";
-import { Link, useNavigate } from "react-router-dom";
-import { useRef, useState, useEffect } from "react";
-// import { useState } from "react";
 
 const appliances = [
-  { img: "/repair/cooler.png", alt: "Air Cooler", path: "/ac" },
-  { img: "/repair/AC.png", alt: "Air Conditioner", path: "/ac" },
-  { img: "/repair/purifier.png", alt: "Air Purifier", path: "/ac" },
-  { img: "/repair/Washing.png", alt: "Washing Machine", path: "/ac" },
-  { img: "/repair/tv.png", alt: "Television", path: "/ac" },
+  { img: "/repair/cooler.png", title: "Air Cooler", path: "/ac" },
+  { img: "/repair/AC.png", title: "Air Conditioner", path: "/ac" },
+  { img: "/repair/purifier.png", title: "Air Purifier", path: "/ac" },
+  { img: "/repair/Washing.png", title: "Washing Machine", path: "/ac" },
+  { img: "/repair/tv.png", title: "Television", path: "/ac" },
 ];
 
 export default function Repair() {
@@ -29,14 +28,12 @@ export default function Repair() {
       if (scrollRef.current) {
         const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
         setIsAtStart(scrollLeft === 0);
-        setIsAtEnd(scrollLeft + clientWidth >= scrollWidth - 1); // -1 to account for rounding
+        setIsAtEnd(scrollLeft + clientWidth >= scrollWidth - 1);
       }
     };
 
     window.addEventListener("resize", handleResize);
     scrollRef.current?.addEventListener("scroll", checkScrollPosition);
-
-    // Initial check
     checkScrollPosition();
 
     return () => {
@@ -63,53 +60,60 @@ export default function Repair() {
   };
 
   return (
-    <div className="mbs-container">
-      <div className="mbs-header">
-        <h2 className="text-xl font-semibold">Appliance repair & service</h2>
-        <button className="see-all-btn">See all</button>
-      </div>
+    <div className="MBS-container bg-white">
+      <div className="max-w-7xl mx-auto px-4">
+        <div className="MBS-header">
+          <h2 className="MBS-title">Appliance repair & service</h2>
+          <button className="see-all-btn" onClick={() => navigate("/ac")}>
+            See all
+          </button>
+        </div>
 
-      <div className="mbs-scroll-wrapper">
-        <button
-          onClick={() => scroll("left")}
-          className={`scroll-btn left ${isAtStart ? "disabled" : ""}`}
-          disabled={isAtStart}
-        >
-          ◀
-        </button>
-        <div ref={scrollRef} className="scroll-container">
-          {appliances.map(({ img, title, path }, index) => {
-            const content = (
-              <div className="card">
-                <div className="card-content">
-                  <img
-                    src={img}
-                    alt={title}
-                    className="img"
-                    style={{ width: "auto", height: "auto" }}
-                  />
-                </div>
-              </div>
-            );
+        <div className="relative">
+          <button
+            onClick={() => scroll("left")}
+            className={`scroll-btn left ${isAtStart ? "disabled" : ""}`}
+            disabled={isAtStart}
+          >
+            ◀
+          </button>
 
-            return (
+          <div
+            ref={scrollRef}
+            className="scroll-container flex gap-4 overflow-x-auto scroll-smooth pb-4 px-1"
+          >
+            {appliances.map(({ img, title, path }, index) => (
               <div
                 key={index}
-                className="scroll-item"
-                style={{ cursor: path ? "pointer" : "default" }}
+                onClick={() => navigate(path)}
+                className="min-w-[180px] md:min-w-[220px] cursor-pointer flex flex-col items-center"
               >
-                {path ? <Link to={path}>{content}</Link> : content}
+                <Card className="w-full aspect-square overflow-hidden border-none shadow-none transition-transform hover:scale-[1.03]">
+                  <CardContent className="p-0 h-full">
+                    <div className="w-full h-full">
+                      <img
+                        src={img}
+                        alt={title}
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  </CardContent>
+                </Card>
+                <p className="text-center font-medium text-gray-800 mt-2">
+                  {title}
+                </p>
               </div>
-            );
-          })}
+            ))}
+          </div>
+
+          <button
+            onClick={() => scroll("right")}
+            className={`scroll-btn right ${isAtEnd ? "disabled" : ""}`}
+            disabled={isAtEnd}
+          >
+            ▶
+          </button>
         </div>
-        <button
-          onClick={() => scroll("right")}
-          className={`scroll-btn right ${isAtEnd ? "disabled" : ""}`}
-          disabled={isAtEnd}
-        >
-          ▶
-        </button>
       </div>
     </div>
   );

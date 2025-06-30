@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "../../components/ui/card";
-import "../../styles/MBS.css"; // Keep styles here or add globally
+import "../../styles/MBS.css";
 
 const appliances = [
   {
@@ -87,12 +87,12 @@ export default function MBS() {
   };
 
   return (
-    <div className="max-w-[1200px] mx-auto px-4">
-      <div className="flex justify-between items-center p-4">
-        <h2 className="text-xl font-semibold">Most Booked Services</h2>
+    <div className="MSB-container">
+      <div className="MSB-header">
+        <h2 className="MSB-title">Most Booked Services</h2>
         <button
           onClick={() => navigate("/most-booked-services")}
-          className="border-2 border-black rounded-lg px-4 py-2 font-medium hover:bg-gray-100 transition-colors"
+          className="see-all-btn "
         >
           See all
         </button>
