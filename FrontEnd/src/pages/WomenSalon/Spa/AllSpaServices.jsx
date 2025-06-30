@@ -21,7 +21,7 @@ const AllSpaServices = () => {
     const fetchALLSpa = async () => {
       try {
         const response = await fetch(
-          "https://hearth-hand.onrender.com/womenSpa/womenSpa"
+          "https://hearthhandfullstack.onrender.com/womenSpa/womenSpa"
         );
         const data = await response.json();
         setServices(data);

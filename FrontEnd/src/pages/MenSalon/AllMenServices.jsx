@@ -21,7 +21,9 @@ const AllMenServices = () => {
   useEffect(() => {
     const fetchALL = async () => {
       try {
-        const response = await fetch("https://hearth-hand.onrender.com/men/men");
+        const response = await fetch(
+          "https://hearthhandfullstack.onrender.com/men/men"
+        );
         const data = await response.json();
         setServices(data);
       } catch (error) {
@@ -174,13 +176,15 @@ const AllMenServices = () => {
                     <p className="mb-2">{selectedService.description}</p>
                     <p className="mb-2">
                       <i className="bi bi-star-fill text-warning"></i>{" "}
-                      {selectedService.rating} ({selectedService.views_count} reviews)
+                      {selectedService.rating} ({selectedService.views_count}{" "}
+                      reviews)
                     </p>
                     <p className="mb-2 fw-semibold">
                       {selectedService.view_details}
                     </p>
                     <div className="mt-2 px-3 py-2 rounded bg-warning bg-opacity-25 d-inline-block">
-                      🔖 Starting at <strong>₹{selectedService.starts_at_price}</strong>
+                      🔖 Starting at{" "}
+                      <strong>₹{selectedService.starts_at_price}</strong>
                     </div>
                     <div>
                       <button

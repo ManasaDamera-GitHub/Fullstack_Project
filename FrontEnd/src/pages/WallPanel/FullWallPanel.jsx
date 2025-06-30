@@ -22,7 +22,7 @@ const AllWallPanel = () => {
   useEffect(() => {
     const fetchALL = async () => {
       try {
-        const response = await fetch("https://hearth-hand.onrender.com/wall");
+        const response = await fetch("https://hearthhandfullstack.onrender.com/wall");
         if (!response.ok) {
           throw new Error("Failed to fetch services");
         }

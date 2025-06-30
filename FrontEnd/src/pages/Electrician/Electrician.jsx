@@ -22,7 +22,7 @@ const ElectricianServices = () => {
     const fetchALL = async () => {
       try {
         const response = await fetch(
-          "https://hearth-hand.onrender.com/electrician/electrician"
+          "https://hearthhandfullstack.onrender.com/electrician/electrician"
         );
         if (!response.ok) throw new Error("Failed to fetch services");
         const data = await response.json();

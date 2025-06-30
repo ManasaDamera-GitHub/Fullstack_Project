@@ -4,6 +4,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "../styles/BookingPage.css";
 import axios from "axios";
+import Header from "@/components/Navbar";
 
 const BookingPage = () => {
   const { serviceTitle, serviceType, serviceId, professionalId } = useParams();
@@ -57,7 +58,7 @@ const BookingPage = () => {
 
     try {
       const res = await axios.post(
-        "https://hearth-hand.onrender.com/servicebooking",
+        "https://hearthhandfullstack.onrender.com/servicebooking",
         bookingData
       );
 
@@ -97,6 +98,8 @@ const BookingPage = () => {
 
   return (
     <>
+      <Header />
+      <div className="space" style={{ marginTop: "8rem" }}></div>
       <div className="container mt-5">
         <h2 className="text-center mb-4">Book {serviceTitle}</h2>
         <form className="booking-form" onSubmit={handleSubmit}>

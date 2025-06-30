@@ -22,7 +22,7 @@ const AllCleaningPestControl = () => {
     const fetchALL = async () => {
       try {
         const response = await fetch(
-          "https://hearth-hand.onrender.com/cleaningPest/cleaning"
+          "https://hearthhandfullstack.onrender.com/cleaningPest/cleaning"
         );
         if (!response.ok) {
           throw new Error("Failed to fetch services");

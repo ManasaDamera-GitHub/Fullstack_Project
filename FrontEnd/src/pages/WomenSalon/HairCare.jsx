@@ -23,7 +23,7 @@ const HairCare = () => {
         setLoading(true);
         setError(null);
         const response = await fetch(
-          "https://hearth-hand.onrender.com/women/women"
+          "https://hearthhandfullstack.onrender.com/women/women"
         );
         const data = await response.json();
         const hairServices = data.filter(

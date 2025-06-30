@@ -45,7 +45,7 @@ export const Signup = () => {
 
     try {
       const response = await axios.post(
-        "https://hearth-hand.onrender.com/signup/signup",
+        "https://hearthhandfullstack.onrender.com/signup/signup",
         formData,
         {
           headers: { "Content-Type": "application/json" },

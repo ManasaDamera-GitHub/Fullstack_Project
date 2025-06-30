@@ -23,7 +23,7 @@ const Facial = () => {
         setIsLoading(true);
         setError(null);
         const response = await fetch(
-          "https://hearth-hand.onrender.com/men/men"
+          "https://hearthhandfullstack.onrender.com/men/men"
         );
         const data = await response.json();
         const facialServices = data.filter(

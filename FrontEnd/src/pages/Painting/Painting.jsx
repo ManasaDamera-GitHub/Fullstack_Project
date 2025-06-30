@@ -22,7 +22,7 @@ const PaintingServices = () => {
     const fetchAll = async () => {
       try {
         const response = await fetch(
-          "https://hearth-hand.onrender.com/painting/painting"
+          "https://hearthhandfullstack.onrender.com/painting/painting"
         );
         if (!response.ok) throw new Error("Failed to fetch services");
         const data = await response.json();

@@ -19,7 +19,9 @@ const ACAppliances = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await fetch("https://hearth-hand.onrender.com/ac/ac");
+        const response = await fetch(
+          "https://hearthhandfullstack.onrender.com/ac/ac"
+        );
         const data = await response.json();
         setServices(data);
       } catch (error) {

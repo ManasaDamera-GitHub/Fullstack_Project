@@ -116,7 +116,7 @@ const ProfessionalsPage = () => {
     const fetchProfessionals = async () => {
       try {
         const res = await fetch(
-          `https://hearth-hand.onrender.com/professional?serviceTitle=${encodeURIComponent(
+          `https://hearthhandfullstack.onrender.com/professional?serviceTitle=${encodeURIComponent(
             serviceTitle
           )}`
         );
