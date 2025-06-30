@@ -41,6 +41,7 @@ import BookingPage from "./pages/Booking/booking";
 import MyBookings from "./pages/MyBookings/MyBookings";
 import WallPanelCarousel from "./pages/WallPanel/WallCarousel";
 import BeautyCarousel from "./pages/WomenSalon/BeautyCarousel";
+import Footer from "./pages/Footer/Footer";
 
 export const App = () => {
   return (
@@ -110,6 +111,7 @@ export const App = () => {
           style={{ padding: 0 }}
         />
       </Router>
+      {/* <Footer /> */}
     </CartProvider>
   );
 };

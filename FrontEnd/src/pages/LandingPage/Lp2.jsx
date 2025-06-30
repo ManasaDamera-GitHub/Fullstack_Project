@@ -34,6 +34,7 @@ function DoorStep() {
 
   return (
     <div className="doorstep-container">
+      <div className="space"></div>
       <h1 className="main-heading">
         "Your home deserves the best—we bring it to you."
       </h1>

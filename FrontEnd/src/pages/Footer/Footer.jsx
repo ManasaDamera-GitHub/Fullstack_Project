@@ -1,9 +1,9 @@
 import React from "react";
 import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
-
+import "../../styles/MBS.css";
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-10 px-6 mt-10">
+    <footer className="bg-gray-900 text-white py-10 px-6 mt-10 footer">
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
         {/* Brand Section */}
         <div>

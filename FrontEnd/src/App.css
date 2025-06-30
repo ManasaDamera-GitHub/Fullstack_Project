@@ -292,7 +292,8 @@ html, body {
 
 /* For consistent layout */
 section {
-  padding: 30px 20px;
+  /* padding: 30px 20px; */
+
 }
 
 /* Utility */

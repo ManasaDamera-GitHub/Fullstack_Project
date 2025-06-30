@@ -20,8 +20,8 @@ function LandingPage() {
     <>
       <div>
         <Header />
-        <MyCarousel />
         <DoorStep />
+        <MyCarousel />
         <ThirdPart />
         <FourthPart />
         <FifthPart />
