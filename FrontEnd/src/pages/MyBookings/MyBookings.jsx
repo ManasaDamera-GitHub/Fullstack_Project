@@ -30,7 +30,9 @@ const MyBookings = () => {
   useEffect(() => {
     const fetchBookings = async () => {
       try {
-        const res = await axios.get(`https://hearth-hand.onrender.com/bookings/${userId}`);
+        const res = await axios.get(
+          `https://hearth-hand.onrender.com/bookings/${userId}`
+        );
         const fetchedBookings = res.data;
         setBookings(fetchedBookings);
         fetchedBookings.forEach((b) => addBooking(b));
