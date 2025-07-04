@@ -105,7 +105,7 @@ export const App = () => {
           <Route path="/beauty" element={<BeautyCarousel />} />
         </Routes>
         <ToastContainer
-          position="bottom-right"
+          position="top-right"
           autoClose={1000}
           style={{ padding: 0 }}
         />

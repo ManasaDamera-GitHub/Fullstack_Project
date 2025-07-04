@@ -53,7 +53,10 @@ const Login = () => {
       });
     } catch (error) {
       console.error(error.message);
-      toast.error(error.response?.data?.message || "Something went wrong");
+      toast.dismiss();
+      toast.error(error.response?.data?.message || "Something went wrong", {
+        autoClose: 2000,
+      });
     } finally {
       setLoading(false);
     }
@@ -124,7 +127,7 @@ const Login = () => {
           Sign in with Google
         </button>
       </div>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </div>
   );
 };
