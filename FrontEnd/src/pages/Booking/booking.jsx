@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,6 +16,12 @@ const BookingPage = () => {
     address: "",
     paymentType: "",
   });
+  useEffect(() => {
+    const userId = localStorage.getItem("userId");
+    const userName = localStorage.getItem("userName");
+    console.log("User ID from localStorage:", userId);
+    console.log("User Name from localStorage:", userName);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

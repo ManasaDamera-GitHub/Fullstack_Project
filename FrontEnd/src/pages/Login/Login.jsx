@@ -6,6 +6,7 @@ import { FcGoogle } from "react-icons/fc";
 import { toast, ToastContainer } from "react-toastify";
 import "../../styles/LoginReg/Login.css";
 import axios from "axios";
+import GoogleLoginButton from "./GoogleAuth";
 
 const Login = () => {
   const [formData, setFormData] = useState({
@@ -122,10 +123,11 @@ const Login = () => {
         <Link to={"/home"} className="guest-login-link">
           <p className="guest-login-text">Guest Login</p>
         </Link>
-        <button className="btn-google">
+        {/* <button className="btn-google">
           <FcGoogle />
           Sign in with Google
-        </button>
+        </button> */}
+        <GoogleLoginButton />
       </div>
       {/* <ToastContainer /> */}
     </div>

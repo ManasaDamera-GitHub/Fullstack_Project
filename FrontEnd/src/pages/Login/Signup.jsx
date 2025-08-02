@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoPersonOutline } from "react-icons/io5";
 import { MdOutlineEmail } from "react-icons/md";
@@ -8,6 +8,7 @@ import { toast, ToastContainer } from "react-toastify";
 import axios from "axios";
 import "react-toastify/dist/ReactToastify.css";
 import "../../styles/LoginReg/register.css";
+import GoogleLoginButton from "./GoogleAuth";
 
 export const Signup = () => {
   const [formData, setFormData] = useState({
@@ -16,10 +17,27 @@ export const Signup = () => {
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const [passwordStrength, setPasswordStrength] = useState("");
+  const nameInputRef = useRef(null);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    nameInputRef.current.focus();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+
+    if (e.target.name === "password") {
+      checkPasswordStrength(e.target.value);
+    }
+  };
+  const checkPasswordStrength = (password) => {
+    if (password.length < 6) return setPasswordStrength("Weak");
+    if (/[A-Z/.test(password) && /[0-9]/.test(password) && password.length >= 8)
+      return setPasswordStrength("Strong");
+
+    setPasswordStrength("Medium");
   };
 
   const handleSubmit = async (e) => {
@@ -96,6 +114,7 @@ export const Signup = () => {
                 value={formData.name}
                 onChange={handleChange}
                 disabled={loading}
+                ref={nameInputRef}
               />
               <span className="input-icon">
                 <IoPersonOutline />
@@ -137,6 +156,25 @@ export const Signup = () => {
                 <RiLockPasswordLine />
               </span>
             </div>
+            <p className={`strength ${passwordStrength.toLowerCase()}`}>
+              Strength: {passwordStrength}
+            </p>
+
+            {passwordStrength === "Weak" && (
+              <small className="hint weak">
+                Try adding numbers and uppercase letters.
+              </small>
+            )}
+            {passwordStrength === "Medium" && (
+              <small className="hint medium">
+                Almost strong! Add more variety like symbols.
+              </small>
+            )}
+            {passwordStrength === "Strong" && (
+              <small className="hint strong">
+                Great! Your password is strong.
+              </small>
+            )}
           </div>
 
           <div className="remember-me">
@@ -151,7 +189,7 @@ export const Signup = () => {
           </div>
 
           <button type="submit" className="signup-btn" disabled={loading}>
-            {loading ? "Signing Up..." : "Sign Up"}
+            {loading ? <div className="spinner"></div> : "Sign Up"}
           </button>
         </form>
 
@@ -163,14 +201,16 @@ export const Signup = () => {
           <span className="divider-text">Or</span>
         </div>
 
-        <div className="social-buttons">
+        {/* <div className="social-buttons">
           <button className="social-btn google-btn">
             <FcGoogle className="social-icon" />
             Sign Up with Google
           </button>
-        </div>
+        </div> */}
+        <GoogleLoginButton />
       </div>
       {/* <ToastContainer /> */}
+      <ToastContainer position="top-right" autoClose={3000} />
     </div>
   );
 };

@@ -5,11 +5,12 @@ import { MdOutlineBookmarkAdded } from "react-icons/md";
 import { useBooking } from "../pages/context/BookingContext";
 import "../styles/Header.css";
 import { useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 const Header = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("Select Location");
-  const cartItems = 0;
+  // const cartItems = 0;
 
   const { bookings } = useBooking();
   const navigate = useNavigate();
@@ -45,6 +46,13 @@ const Header = () => {
     }
     alert("Service not found");
     console.log("No category match found. Search:", searchQuery);
+  };
+  const handleLogOut = () => {
+    toast.success("Logged out successfully");
+    localStorage.clear();
+    setTimeout(() => {
+      navigate("/");
+    }, 1500);
   };
 
   return (
@@ -103,7 +111,7 @@ const Header = () => {
         <div className="user-actions">
           <a href="/cart" className="cart-icon" aria-label="Cart">
             <FiShoppingCart className="cart-icon-img" />
-            {cartItems > 0 && <span className="cart-count">{cartItems}</span>}
+            {/* {cartItems > 0 && <span className="cart-count">{cartItems}</span>} */}
           </a>
 
           <a
@@ -117,12 +125,17 @@ const Header = () => {
             )}
           </a>
 
-          <a href="/" className="login-icon" aria-label="Logout">
+          <button
+            onClick={handleLogOut}
+            className="login-icon"
+            aria-label="Logout"
+          >
             <FiUser className="user-icon" />
             Logout
-          </a>
+          </button>
         </div>
       </div>
+      <ToastContainer position="top-right" autoClose={3000} />
     </header>
   );
 };
